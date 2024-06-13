@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 //로그인 컨트롤러
 class LoginViewController: UIViewController {
@@ -16,6 +17,9 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     
     var signupViewController: SignupViewController? //회원가입 showToast 함수 이용하기 위해 참조
+    var users: [User] = [] //파이어베이스에서 가져온 모든 유저 정보
+    //var id: Int? //로그인한 유저 아이디 찾기 위함
+    var stringId: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +34,7 @@ class LoginViewController: UIViewController {
 
         let userId = userIdTextField.text!
         let password = passwordTextField.text!
+        
         Auth.auth().signIn(withEmail: userId+"@hansung.ac.kr", password: password) {
             result, error in
             if let error = error {
@@ -39,6 +44,29 @@ class LoginViewController: UIViewController {
             }
             if let result = result {
                 print(result)
+                
+                
+                // Firestore에서 유저 데이터 가져오기
+                Firestore.firestore().collection("Users").getDocuments { (querySnapshot, error) in
+                    if let error = error {
+                        print("Error getting documents: \(error)")
+                    } else {
+                        self.users.removeAll()
+                        for document in querySnapshot!.documents {
+                            let data = document.data()
+                            let user = User.fromDict(dict: data)
+                            self.users.append(user)
+                        }
+                    }
+                }
+                
+                for i in 0..<self.users.count {
+                    if(self.users[i].userId == userId) {
+                        //self.id = self.users[i].id
+                        self.stringId = String(self.users[i].id)
+                    }
+                }
+                
                 self.signupViewController?.showToast(message: "로그인되었습니다.")
                 self.performSegue(withIdentifier: "GotoHome", sender: nil)
             }
@@ -87,5 +115,15 @@ class LoginViewController: UIViewController {
 extension LoginViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
+        //let searchFriendViewController = segue.destination as? SearchFriendViewController
+        
+        if segue.identifier == "GotoHome" {
+            if let tabBarController = segue.destination as? UITabBarController {
+                if let searchFriendViewController = tabBarController.viewControllers?[2] as? SearchFriendViewController {
+                    searchFriendViewController.stringId = self.stringId
+                }
+                // 다른 탭도 필요에 따라 설정
+            }
+        }
     }
 }

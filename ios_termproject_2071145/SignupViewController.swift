@@ -45,8 +45,8 @@ class SignupViewController: UIViewController {
         let password = passwordText
         let name = nameText
         let imageName = "default_profile"
-        
         var user = User(id: id, userId: userId, password: password, name: name, imageName: imageName)
+        
         for i in 0..<users.count {
             if userId == users[i].userId {
                 id = users[i].id
@@ -70,8 +70,10 @@ class SignupViewController: UIViewController {
             }
         }
         usersDbFirebase?.saveChange(key: String(id), object: User.toDict(user: user), action: .add)
+        
         profileImage = ImagePool.image(name: imageName)
         modifyUser(usersDbFirebase: usersDbFirebase, user: user)
+        
         self.showToast(message: "회원가입을 완료하였습니다!")
         performSegue(withIdentifier: "GotoLogin", sender: nil)
     }
@@ -176,7 +178,7 @@ extension SignupViewController {
 
         // 이것은 후행클러저이다
         // 이미지 저장이 완료되면 여기를 스레드가 수행한다.
-        // 이제야 도시정보를 파이어베이스에 저장한다.
+        // 이제야 정보를 파이어베이스에 저장한다.
         usersDbFirebase?.saveChange(key: String(user.id), object: User.toDict(user: user), action: .modify)
       }
     }

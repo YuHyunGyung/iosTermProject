@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		E055DB842C19E534003B7D7E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E055DB832C19E534003B7D7E /* AppDelegate.swift */; };
 		E055DB862C19E534003B7D7E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E055DB852C19E534003B7D7E /* SceneDelegate.swift */; };
-		E055DB882C19E534003B7D7E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E055DB872C19E534003B7D7E /* ViewController.swift */; };
 		E055DB8B2C19E534003B7D7E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E055DB892C19E534003B7D7E /* Main.storyboard */; };
 		E055DB8D2C19E535003B7D7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E055DB8C2C19E535003B7D7E /* Assets.xcassets */; };
 		E055DB902C19E535003B7D7E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E055DB8E2C19E535003B7D7E /* LaunchScreen.storyboard */; };
@@ -37,13 +36,15 @@
 		E08412582C1A3F2300231A93 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08412572C1A3F2200231A93 /* Image.swift */; };
 		E084125A2C1A981100231A93 /* ImagePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08412592C1A981100231A93 /* ImagePool.swift */; };
 		E084125C2C1AA8E700231A93 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E084125B2C1AA8E700231A93 /* FirebaseAuth */; };
+		E084125E2C1ABA4200231A93 /* UsersFollowingDbFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E084125D2C1ABA4200231A93 /* UsersFollowingDbFirebase.swift */; };
+		E08412602C1ADB4800231A93 /* Following.swift in Sources */ = {isa = PBXBuildFile; fileRef = E084125F2C1ADB4800231A93 /* Following.swift */; };
+		E0E20D942C1B434800E717E2 /* AddMeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E20D932C1B434800E717E2 /* AddMeetingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E055DB802C19E534003B7D7E /* ios_termproject_2071145.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ios_termproject_2071145.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E055DB832C19E534003B7D7E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E055DB852C19E534003B7D7E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E055DB872C19E534003B7D7E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E055DB8A2C19E534003B7D7E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E055DB8C2C19E535003B7D7E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E055DB8F2C19E535003B7D7E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -64,6 +65,9 @@
 		E08412552C1A3E4800231A93 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E08412572C1A3F2200231A93 /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		E08412592C1A981100231A93 /* ImagePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePool.swift; sourceTree = "<group>"; };
+		E084125D2C1ABA4200231A93 /* UsersFollowingDbFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersFollowingDbFirebase.swift; sourceTree = "<group>"; };
+		E084125F2C1ADB4800231A93 /* Following.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Following.swift; sourceTree = "<group>"; };
+		E0E20D932C1B434800E717E2 /* AddMeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMeetingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +111,6 @@
 			children = (
 				E055DB832C19E534003B7D7E /* AppDelegate.swift */,
 				E055DB852C19E534003B7D7E /* SceneDelegate.swift */,
-				E055DB872C19E534003B7D7E /* ViewController.swift */,
 				E055DB892C19E534003B7D7E /* Main.storyboard */,
 				E055DB8C2C19E535003B7D7E /* Assets.xcassets */,
 				E055DB8E2C19E535003B7D7E /* LaunchScreen.storyboard */,
@@ -119,15 +122,18 @@
 				E08412442C1A2F1B00231A93 /* SearchFriendTableViewCell.swift */,
 				E08412082C19FED400231A93 /* MyProfileViewController.swift */,
 				E084120A2C19FF0A00231A93 /* AccountViewController.swift */,
+				E0E20D932C1B434800E717E2 /* AddMeetingViewController.swift */,
 				E08412372C1A0B6700231A93 /* ModelData.swift */,
 				E08412572C1A3F2200231A93 /* Image.swift */,
 				E08412592C1A981100231A93 /* ImagePool.swift */,
 				E084120C2C1A05B000231A93 /* meetingData.json */,
 				E084120E2C1A074100231A93 /* Meeting.swift */,
 				E08412552C1A3E4800231A93 /* User.swift */,
+				E084125F2C1ADB4800231A93 /* Following.swift */,
 				E084124F2C1A3BFB00231A93 /* GoogleService-Info.plist */,
 				E08412522C1A3C5100231A93 /* Database.swift */,
 				E08412512C1A3C5100231A93 /* UsersDbFirebase.swift */,
+				E084125D2C1ABA4200231A93 /* UsersFollowingDbFirebase.swift */,
 			);
 			path = ios_termproject_2071145;
 			sourceTree = "<group>";
@@ -227,11 +233,13 @@
 			files = (
 				E055DB9A2C19E904003B7D7E /* LoginViewController.swift in Sources */,
 				E08412532C1A3C5200231A93 /* UsersDbFirebase.swift in Sources */,
-				E055DB882C19E534003B7D7E /* ViewController.swift in Sources */,
 				E08412072C19FECA00231A93 /* SearchFriendViewController.swift in Sources */,
 				E055DB9C2C19E910003B7D7E /* SignupViewController.swift in Sources */,
 				E084125A2C1A981100231A93 /* ImagePool.swift in Sources */,
 				E055DB842C19E534003B7D7E /* AppDelegate.swift in Sources */,
+				E08412602C1ADB4800231A93 /* Following.swift in Sources */,
+				E084125E2C1ABA4200231A93 /* UsersFollowingDbFirebase.swift in Sources */,
+				E0E20D942C1B434800E717E2 /* AddMeetingViewController.swift in Sources */,
 				E084120F2C1A074100231A93 /* Meeting.swift in Sources */,
 				E055DB862C19E534003B7D7E /* SceneDelegate.swift in Sources */,
 				E08412562C1A3E4800231A93 /* User.swift in Sources */,

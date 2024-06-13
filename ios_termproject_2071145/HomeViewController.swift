@@ -75,7 +75,7 @@ extension HomeViewController: UITableViewDelegate {
     
     //cell 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        return 90
     }
 }
 
@@ -86,7 +86,7 @@ extension HomeViewController: UISearchBarDelegate {
         if searchText.isEmpty {
             filteredMeetings = meetings
         } else {
-            var text = searchText.lowercased()
+            let text = searchText.lowercased()
             filteredMeetings = meetings.filter { $0.title.contains(text) }
         }
         meetingTableView.reloadData()
