@@ -1,10 +1,3 @@
-/*
-See the LICENSE.txt file for this sample’s licensing information.
-
-Abstract:
-Storage for model data.
-*/
-
 import Foundation
 
 // var landmarks: [Landmark] = load("landmarkData.json")

@@ -6,12 +6,17 @@
 //
 
 import UIKit
-
+import FirebaseAuth
 
 //로그인 컨트롤러
 class LoginViewController: UIViewController {
     var isShowKeyboard = false
 
+    @IBOutlet weak var userIdTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+    
+    var signupViewController: SignupViewController? //회원가입 showToast 함수 이용하기 위해 참조
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -19,6 +24,27 @@ class LoginViewController: UIViewController {
         let viewTapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(viewTapGesture)
     }
+    
+    //로그인 button
+    @IBAction func loginUser(_ sender: UIButton) {
+
+        let userId = userIdTextField.text!
+        let password = passwordTextField.text!
+        Auth.auth().signIn(withEmail: userId+"@hansung.ac.kr", password: password) {
+            result, error in
+            if let error = error {
+                print(error.localizedDescription)
+                self.signupViewController?.showToast(message: "아이디, 비밀번호를 확인하세요.")
+                return
+            }
+            if let result = result {
+                print(result)
+                self.signupViewController?.showToast(message: "로그인되었습니다.")
+                self.performSegue(withIdentifier: "GotoHome", sender: nil)
+            }
+        }
+    }
+    
     //
     override func viewDidAppear(_ animated: Bool) {
         //키보드가 나타날때 실행 함수
@@ -54,4 +80,12 @@ class LoginViewController: UIViewController {
     }
     
     
+}
+
+
+//화면 전환 - 로그인 성공시 메인 홈 화면
+extension LoginViewController {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+    }
 }
