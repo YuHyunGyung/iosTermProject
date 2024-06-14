@@ -1,26 +1,26 @@
-//
-//  Meeting.swift
-//  ios_termproject_2071145
-//
-//  Created by 유현경 on 6/13/24.
-//
-
 import Foundation
 import SwiftUI
 import CoreLocation
 
 struct Meeting: Hashable, Codable, Identifiable {
-    var id: Int
-    var name: String
-    var title: String
-    var date: String
+    var id: Int //주최자 primary key
+    var name: String //주최자 이름
+    var title: String //제목
+    var date: String //약속 날짜
+    var memo: String //메모
+    var member:Array<Int> = Array<Int>() //모임 멤버
+    var account: String //잔액
     
     
-    init(id: Int, name: String, title: String, date: String) {
+    
+    init(id: Int, name: String, title: String, date: String, memo: String, member: Array<Int>, account: String) {
         self.id = id
         self.name = name
         self.title = title
         self.date = date
+        self.memo = memo
+        self.member = member
+        self.account = account
     }
 }
 
@@ -32,6 +32,9 @@ extension Meeting{
         dict["name"] = meeting.name
         dict["title"] = meeting.title
         dict["date"] = meeting.date
+        dict["memo"] = meeting.memo
+        dict["member"] = meeting.member
+        dict["account"] = meeting.account
 
         return dict
     }
@@ -42,8 +45,11 @@ extension Meeting{
         let name = dict["name"] as! String
         let title = dict["title"] as! String
         let date = dict["date"] as! String
+        let memo = dict["memo"] as! String
+        let member = dict["member"] as! Array<Int>
+        let account = dict["account"] as! String
         
-        return Meeting(id: id, name: name, title: title, date: date)
+        return Meeting(id: id, name: name, title: title, date: date, memo: memo, member: member, account: account)
     }
 }
 

@@ -12,18 +12,26 @@ class HomeViewController: UIViewController {
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var meetingTableView: UITableView!
+    
     var meetings: [Meeting] = ios_termproject_2071145.load("meetingData.json")
     var filteredMeetings: [Meeting] = [] //검색 필터를 위한 새로운 배열
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         filteredMeetings = meetings
+        
         
         searchBar.delegate = self
         meetingTableView.dataSource = self
         meetingTableView.delegate = self
     }
 
+    //모임 추가하기 버튼
+    @IBAction func addMeeting(_ sender: UIButton) {
+        performSegue(withIdentifier: "GotoDetail", sender: nil)
+    }
 }
 
 
@@ -66,7 +74,7 @@ extension HomeViewController: UITableViewDelegate {
     //i버튼 누르면 전이
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        //performSegue(withIdentifier: "GotoDetail", sender: indexPath)
+        performSegue(withIdentifier: "GotoDetail", sender: indexPath)
     }
     //다른 cell 선택하면 i 버튼 사라짐
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -90,5 +98,19 @@ extension HomeViewController: UISearchBarDelegate {
             filteredMeetings = meetings.filter { $0.title.contains(text) }
         }
         meetingTableView.reloadData()
+    }
+}
+
+extension HomeViewController {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+        let addMeetingDetailViewController = segue.destination as? AddMeetingViewController //전이 하고자 하는 뷰 컨트롤러
+        
+        addMeetingDetailViewController!.homeViewController = self
+        
+        
+        if let indexPath = sender as? IndexPath {
+            addMeetingDetailViewController?.selectedMeeting = indexPath.row
+        }
     }
 }

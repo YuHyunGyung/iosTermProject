@@ -39,6 +39,7 @@
 		E084125E2C1ABA4200231A93 /* UsersFollowingDbFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E084125D2C1ABA4200231A93 /* UsersFollowingDbFirebase.swift */; };
 		E08412602C1ADB4800231A93 /* Following.swift in Sources */ = {isa = PBXBuildFile; fileRef = E084125F2C1ADB4800231A93 /* Following.swift */; };
 		E0E20D942C1B434800E717E2 /* AddMeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E20D932C1B434800E717E2 /* AddMeetingViewController.swift */; };
+		E0E20D962C1C20DF00E717E2 /* UsersMeetingDbFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E20D952C1C20DF00E717E2 /* UsersMeetingDbFirebase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		E084125D2C1ABA4200231A93 /* UsersFollowingDbFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersFollowingDbFirebase.swift; sourceTree = "<group>"; };
 		E084125F2C1ADB4800231A93 /* Following.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Following.swift; sourceTree = "<group>"; };
 		E0E20D932C1B434800E717E2 /* AddMeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMeetingViewController.swift; sourceTree = "<group>"; };
+		E0E20D952C1C20DF00E717E2 /* UsersMeetingDbFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersMeetingDbFirebase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,12 +130,13 @@
 				E08412592C1A981100231A93 /* ImagePool.swift */,
 				E084120C2C1A05B000231A93 /* meetingData.json */,
 				E084120E2C1A074100231A93 /* Meeting.swift */,
+				E0E20D952C1C20DF00E717E2 /* UsersMeetingDbFirebase.swift */,
 				E08412552C1A3E4800231A93 /* User.swift */,
+				E08412512C1A3C5100231A93 /* UsersDbFirebase.swift */,
 				E084125F2C1ADB4800231A93 /* Following.swift */,
+				E084125D2C1ABA4200231A93 /* UsersFollowingDbFirebase.swift */,
 				E084124F2C1A3BFB00231A93 /* GoogleService-Info.plist */,
 				E08412522C1A3C5100231A93 /* Database.swift */,
-				E08412512C1A3C5100231A93 /* UsersDbFirebase.swift */,
-				E084125D2C1ABA4200231A93 /* UsersFollowingDbFirebase.swift */,
 			);
 			path = ios_termproject_2071145;
 			sourceTree = "<group>";
@@ -232,6 +235,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E055DB9A2C19E904003B7D7E /* LoginViewController.swift in Sources */,
+				E0E20D962C1C20DF00E717E2 /* UsersMeetingDbFirebase.swift in Sources */,
 				E08412532C1A3C5200231A93 /* UsersDbFirebase.swift in Sources */,
 				E08412072C19FECA00231A93 /* SearchFriendViewController.swift in Sources */,
 				E055DB9C2C19E910003B7D7E /* SignupViewController.swift in Sources */,
