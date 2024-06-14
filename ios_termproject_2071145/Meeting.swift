@@ -4,6 +4,7 @@ import CoreLocation
 
 struct Meeting: Hashable, Codable, Identifiable {
     var id: Int //주최자 primary key
+    var meetingId: Int //meeting primary key
     var name: String //주최자 이름
     var title: String //제목
     var date: String //약속 날짜
@@ -13,8 +14,9 @@ struct Meeting: Hashable, Codable, Identifiable {
     
     
     
-    init(id: Int, name: String, title: String, date: String, memo: String, member: Array<Int>, account: String) {
+    init(id: Int, meetingId: Int, name: String, title: String, date: String, memo: String, member: Array<Int>, account: String) {
         self.id = id
+        self.meetingId = meetingId
         self.name = name
         self.title = title
         self.date = date
@@ -29,6 +31,7 @@ extension Meeting{
         var dict = [String: Any]()
         
         dict["id"] = meeting.id
+        dict["meetingId"] = meeting.meetingId
         dict["name"] = meeting.name
         dict["title"] = meeting.title
         dict["date"] = meeting.date
@@ -42,6 +45,7 @@ extension Meeting{
     static func fromDict(dict: [String: Any]) -> Meeting{
         
         let id = dict["id"] as! Int
+        let meetingId = dict["meeingId"] as! Int
         let name = dict["name"] as! String
         let title = dict["title"] as! String
         let date = dict["date"] as! String
@@ -49,7 +53,7 @@ extension Meeting{
         let member = dict["member"] as! Array<Int>
         let account = dict["account"] as! String
         
-        return Meeting(id: id, name: name, title: title, date: date, memo: memo, member: member, account: account)
+        return Meeting(id: id, meetingId: meetingId, name: name, title: title, date: date, memo: memo, member: member, account: account)
     }
 }
 

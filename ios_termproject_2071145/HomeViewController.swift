@@ -9,25 +9,36 @@ import UIKit
 
 //메인 홈 컨트롤러
 class HomeViewController: UIViewController {
-
+    var appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate //AppDelegate 공유
+    
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var meetingTableView: UITableView!
     
-    var meetings: [Meeting] = ios_termproject_2071145.load("meetingData.json")
+    
+    //var meetings: [Meeting] = ios_termproject_2071145.load("meetingData.json")
     var filteredMeetings: [Meeting] = [] //검색 필터를 위한 새로운 배열
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        filteredMeetings = appDelegate.meetings //filteredMeetings = meetings
         
-        filteredMeetings = meetings
-        
+        self.navigationItem.title = "모임 통장"
         
         searchBar.delegate = self
         meetingTableView.dataSource = self
         meetingTableView.delegate = self
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        //화면 다시 나타날때 변경된거 보여줌
+        if let indexPath = meetingTableView.indexPathForSelectedRow {
+            
+        }
+        filteredMeetings = appDelegate.meetings
+        meetingTableView.reloadData()
+    }
+    
     //모임 추가하기 버튼
     @IBAction func addMeeting(_ sender: UIButton) {
         performSegue(withIdentifier: "GotoDetail", sender: nil)
@@ -92,10 +103,10 @@ extension HomeViewController: UISearchBarDelegate {
     //검색 중일때
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
-            filteredMeetings = meetings
+            filteredMeetings = appDelegate.meetings
         } else {
             let text = searchText.lowercased()
-            filteredMeetings = meetings.filter { $0.title.contains(text) }
+            filteredMeetings = appDelegate.meetings.filter { $0.title.contains(text) }
         }
         meetingTableView.reloadData()
     }

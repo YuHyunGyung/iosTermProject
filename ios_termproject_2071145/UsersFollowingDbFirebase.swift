@@ -2,9 +2,8 @@ import Foundation
 import FirebaseFirestore
 
 class UsersFollowingDbFirebase: Database {
+    var appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
     
-    var id: String?
-    var searchFriendViewController: SearchFriendViewController?
     
     //데이터 저장할 위치 설정
     var reference: CollectionReference = Firestore.firestore().collection("Users")
@@ -32,11 +31,9 @@ class UsersFollowingDbFirebase: Database {
     
     //
     func saveChange(key: String, object: [String: Any], action: DbAction) {
-        id = searchFriendViewController?.stringId
-        
         //이런한 key에 대하여 add, delete, modify를 하라
         if action == .delete {
-            reference.document(id!).collection("Following").document(key).delete()
+            reference.document(String(appDelegate.id)).collection("Following").document(key).delete()
             return
         }
          
@@ -47,8 +44,8 @@ class UsersFollowingDbFirebase: Database {
         //object -> 키 id의 값 가져오기
         if let objectIdValue = object["id"] as? Int {
             //id = String(objectIdValue)
-            print("UsersFollowingDbFirebase id : ", id)
-            reference.document(id!).collection("Following").document(key).setData(object)
+            print("UsersFollowingDbFirebase id : ", appDelegate.id)
+            reference.document(String(appDelegate.id)).collection("Following").document(key).setData(object)
         }
         else {
             print("UsersFollowingDbFirebase : id not found or no and Int")

@@ -11,6 +11,8 @@ import FirebaseFirestore
 
 //로그인 컨트롤러
 class LoginViewController: UIViewController {
+    var appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate //AppDelegate 공유
+    
     var isShowKeyboard = false
 
     @IBOutlet weak var userIdTextField: UITextField!
@@ -34,6 +36,37 @@ class LoginViewController: UIViewController {
 
         let userId = userIdTextField.text!
         let password = passwordTextField.text!
+                
+                
+        
+        // Firestore에서 유저 데이터 가져오기
+        Firestore.firestore().collection("Users").getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting documents: \(error)")
+            } else {
+                self.users.removeAll()
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    let user = User.fromDict(dict: data)
+                    self.users.append(user)
+                    
+                    
+                    for i in 0..<self.users.count {
+                        if(userId == self.users[i].userId && password == self.users[i].password) {
+                            //self.id = self.users[i].id
+                            //self.stringId = String(self.users[i].id)
+                            self.appDelegate.id = self.users[i].id
+                            self.appDelegate.userId = self.users[i].userId
+                            self.appDelegate.name = self.users[i].name
+                            print("LoginViewController id : ", self.appDelegate.id, " userId : ", self.appDelegate.userId, " name : ", self.appDelegate.name)
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+        
         
         Auth.auth().signIn(withEmail: userId+"@hansung.ac.kr", password: password) {
             result, error in
@@ -42,32 +75,10 @@ class LoginViewController: UIViewController {
                 self.signupViewController?.showToast(message: "아이디, 비밀번호를 확인하세요.")
                 return
             }
+        
+            
             if let result = result {
-                print(result)
-                
-                
-                // Firestore에서 유저 데이터 가져오기
-                Firestore.firestore().collection("Users").getDocuments { (querySnapshot, error) in
-                    if let error = error {
-                        print("Error getting documents: \(error)")
-                    } else {
-                        self.users.removeAll()
-                        for document in querySnapshot!.documents {
-                            let data = document.data()
-                            let user = User.fromDict(dict: data)
-                            self.users.append(user)
-                        }
-                    }
-                }
-                
-                for i in 0..<self.users.count {
-                    if(self.users[i].userId == userId) {
-                        //self.id = self.users[i].id
-                        self.stringId = String(self.users[i].id)
-                    }
-                }
-                
-                self.signupViewController?.showToast(message: "로그인되었습니다.")
+                print("LoginViewController result : ", result, "users : ", self.users)
                 self.performSegue(withIdentifier: "GotoHome", sender: nil)
             }
         }
@@ -116,14 +127,5 @@ extension LoginViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         //let searchFriendViewController = segue.destination as? SearchFriendViewController
-        
-        if segue.identifier == "GotoHome" {
-            if let tabBarController = segue.destination as? UITabBarController {
-                if let searchFriendViewController = tabBarController.viewControllers?[2] as? SearchFriendViewController {
-                    searchFriendViewController.stringId = self.stringId
-                }
-                // 다른 탭도 필요에 따라 설정
-            }
-        }
     }
 }

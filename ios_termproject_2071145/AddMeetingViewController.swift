@@ -24,6 +24,7 @@ class AddMeetingViewController: UIViewController {
     var day: String?
     
     let datePickerView = UIPickerView()
+    
     @IBOutlet weak var dateTextField: UITextField!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var memoTextView: UITextView!
@@ -41,8 +42,8 @@ class AddMeetingViewController: UIViewController {
         var current_date_string = formatter.string(from: Date())
         dateTextField.text = current_date_string
 
-        
-        let toolBar = UIToolbar() //pickerview의 done 을 나타내줄 툴바
+        //pickerview의 done 을 나타내줄 툴바
+        let toolBar = UIToolbar()
         let BarButton = UIBarButtonItem()
         
         //텍스트필드에 피커뷰를 할당하는 부분
@@ -67,7 +68,7 @@ class AddMeetingViewController: UIViewController {
         
         //선택된 도시 화면 초기화
         if let selectedMeeting = selectedMeeting {
-            initMeeting(meeting: homeViewController.meetings[selectedMeeting])
+            initMeeting(meeting: homeViewController.appDelegate.meetings[selectedMeeting])
         }
         
     }
@@ -80,12 +81,6 @@ class AddMeetingViewController: UIViewController {
     //선택된 도시 화면 초기화
     func initMeeting(meeting: Meeting) {
         
-        /*
-        for i in 0..<homeViewController.meetings.count {
-            
-        }
-        */
-        
         titleTextField.text = meeting.title
         dateTextField.text = meeting.date
         memoTextView.text = meeting.memo
@@ -97,10 +92,47 @@ class AddMeetingViewController: UIViewController {
         memberString += String(meeting.member[meeting.member.count-1])
         print("memberString : ", memberString)
     }
+    
+    //모임 저장하기
+    @IBAction func savingButton(_ sender: UIButton) {
+        guard let title = titleTextField.text, let memo = memoTextView.text, title.isEmpty == false || memo.isEmpty == false else { return }
+        
+        var date = dateTextField.text
+        //멤버 코드 추가하기
+        
+        var id = homeViewController.appDelegate.meetings.count
+        var meetingId = homeViewController.appDelegate.meetings.count //새로운 모임 primary key 부여
+        var name = "" //homeViewController.meetings.count
+        var member: Array<Int> = Array()//모임 멤버 배열
+        var account: String = "0" //계좌 잔액
+        
+        if let selectedMeeting = selectedMeeting { //신규 삽입이 아니면 수정
+            id = homeViewController.appDelegate.meetings[selectedMeeting].id
+            meetingId = homeViewController.appDelegate.meetings[selectedMeeting].meetingId
+            name = homeViewController.appDelegate.meetings[selectedMeeting].name
+            member = homeViewController.appDelegate.meetings[selectedMeeting].member
+            account = homeViewController.appDelegate.meetings[selectedMeeting].account
+        }
+        
+        
+        let meeting = Meeting(id: id, meetingId: meetingId, name: name, title: title, date: date ?? "", memo: memo, member: member, account: account)
+        print("AddMeetingViewController Meeting : ", meeting)
+        
+        if let selectedMeeting = selectedMeeting { //신규 삽입 아니면 수정
+            homeViewController.appDelegate.meetings[selectedMeeting] = meeting
+        } else {
+            homeViewController.appDelegate.meetings.append(meeting)
+        }
+        
+        
+        selectedMeeting = nil
+        //self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popToRootViewController(animated: true)
+    }
 }
 
 
-
+//pickerview - datasource, delegate
 extension AddMeetingViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     
     //days 배열의 구성요소의 수를 반환하는 메서드 -> picker뷰의 행의 수를 결정
