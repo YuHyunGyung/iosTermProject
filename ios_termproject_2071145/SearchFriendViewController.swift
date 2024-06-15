@@ -143,7 +143,10 @@ extension SearchFriendViewController: UITableViewDelegate {
                     self.following.append(follow.id)
                 }
                 
-                
+                // NotificationCenter를 통해 내 정보 컨트롤러에 알림을 보냄
+                NotificationCenter.default.post(name: Notification.Name("FollowingUpdated"), object: nil)
+
+
                 //버튼 내용 바꾸기
                 if let cell = tableView.cellForRow(at: indexPath) as? SearchFriendTableViewCell {
                     if self.following.contains(selectedUser.id) {

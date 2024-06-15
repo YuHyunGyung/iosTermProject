@@ -36,6 +36,9 @@ class MyProfileViewController: UIViewController {
         
         usersDbFirebaseSet()
         usersFollowingDbFirebaseSet()
+        
+        //NotificationCenter를 통해 팔로잉 상태 업데이트 알림 수신
+        NotificationCenter.default.addObserver(self, selector: #selector(updateFollowingData), name: Notification.Name("FollowingUpdated"), object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -59,6 +62,48 @@ class MyProfileViewController: UIViewController {
             }
         }
         
+    }
+    
+    //알림 수신 시 실행할 함수
+    @objc func updateFollowingData() {
+        
+        //팔로잉 데이터를 다시 불러옴
+        Firestore.firestore().collection("Users").document(String(appDelegate.id)).collection("Following").getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting following documents: \(error)")
+            } else {
+                self.following.removeAll() // 기존 팔로잉 데이터를 지우기
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    let follow = Following.fromDict(dict: data)
+                    self.following.append(follow.id)
+                }
+            }
+            print("MyProfileViewController update following: ", self.following)
+        }
+        
+        
+        Firestore.firestore().collection("Users").document(String(appDelegate.id)).collection("Follower").getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting following documents: \(error)")
+            } else {
+                self.follower.removeAll() // 기존 팔로잉 데이터를 지우기
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    let follow = Follower.fromDict(dict: data)
+                    self.follower.append(follow.id)
+                }
+            }
+            print("MyProfileViewController manage follower: ", self.follower)
+        }
+        
+        //UI 업데이트
+        DispatchQueue.main.async {
+            self.initMyProfile()
+        }
+    }
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: Notification.Name("FollowingUpdated"), object: nil)
     }
     
     //충전버튼
@@ -88,6 +133,7 @@ extension MyProfileViewController {
         
         if dbaction == .add {
             users.append(user)
+            filteredUsers = users
             print("MyProfileViewController manage users : ", users)
         }
         
@@ -138,6 +184,11 @@ extension MyProfileViewController {
                     }
                 }
                 print("MyProfileViewController manage follower: ", self.follower)
+            }
+            
+            // UI 업데이트
+            DispatchQueue.main.async {
+                self.initMyProfile()
             }
         }
     }
