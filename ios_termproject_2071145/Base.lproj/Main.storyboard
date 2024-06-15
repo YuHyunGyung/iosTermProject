@@ -884,7 +884,7 @@
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2c1-o0-U6P">
+                                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2c1-o0-U6P">
                                                         <rect key="frame" x="16.333333333333329" y="25.333333333333329" width="85" height="85"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="85" id="9EA-lM-Btu"/>

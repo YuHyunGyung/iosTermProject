@@ -355,17 +355,12 @@ extension AddMeetingViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "addMeetingFriendyhg", for: indexPath) as! AddMeetingFriendCollectionViewCell
         
         
-        /*
-        let user = members[indexPath.row]
-        cell.imageView.image = UIImage(named: user.imageName)
-        cell.nameLable.text = user.name
-        */
-        
-        
-        
         if indexPath.row < members.count {
             let user = members[indexPath.row] //여기 넣어야 오류 안남
-            cell.imageView.image = UIImage(named: user.imageName)
+            
+            ImagePool.image(name: user.imageName, size: CGSize(width: 85, height: 85)) { [weak self] image in
+                cell.imageView.image = image
+            }
             cell.nameLable.text = user.name
             print("user info : ", user)
         } else {
@@ -447,7 +442,10 @@ extension AddMeetingViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "addMeetingFriendTableViewCellyhg") as! AddMeetingFriendTableViewCell
         
         let user = followingUsers[indexPath.row]
-        cell.profileImageView.image = UIImage(named: user.imageName)
+        
+        ImagePool.image(name: user.imageName, size: CGSize(width: 85, height: 85)) { [weak self] image in
+            cell.profileImageView.image = image
+        }
         cell.userNameLabel.text = user.name
         
         //멤버 추가 버튼 눌렀을 경우

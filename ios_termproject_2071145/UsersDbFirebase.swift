@@ -86,7 +86,7 @@ extension UsersDbFirebase{
     }
     static func downloadImage(imageName: String, completion: @escaping (UIImage?) -> Void) {
         // completion 함수는 이미지 로딩이 다 이루어지면 알려 달라는 함수
-        let reference = Storage.storage().reference().child("Users").child(imageName)
+        let reference = Storage.storage().reference().child("users").child(imageName)
         let megaByte = Int64(10 * 1024 * 1024) // 충분히 크야한다.
         reference.getData(maxSize: megaByte) { data, error in
             completion( data != nil ? UIImage(data: data!): nil) // 스레드에 의하여 실행된다.

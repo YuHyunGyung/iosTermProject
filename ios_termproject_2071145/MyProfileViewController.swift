@@ -34,6 +34,10 @@ class MyProfileViewController: UIViewController {
 
         print("MyProfileViewController viewDidLoad")
         
+        //이미지 탭 제스쳐
+        let imageTapGesture = UITapGestureRecognizer(target: self, action: #selector(capturePicture))
+        profileImageView.addGestureRecognizer(imageTapGesture)
+        
         usersDbFirebaseSet()
         usersFollowingDbFirebaseSet()
         
@@ -54,14 +58,30 @@ class MyProfileViewController: UIViewController {
                 print("MyProfileViewController initMyProfile user : ", user)
                 
                 userNameLabel.text = user.name //유저 닉네임
-                profileImageView.image = UIImage(named: user.imageName) //프로필 이미지
+                //profileImageView.image = UIImage(named: user.imageName) //프로필 이미지
                 followingLabel.text = String(following.count) //팔로잉 수
                 followerLabel.text = String(follower.count) //팔로워 수
                 accountLabel.text = String(user.account)+"원" //계좌 잔액
+                
+                // 프로필 이미지를 비동기적으로 로드
+                ImagePool.image(name: user.imageName, size: CGSize(width: 85, height: 85)) { [weak self] image in
+                    self?.profileImageView.image = image
+                }
                 return
             }
         }
         
+    }
+    
+    //이미지뷰 탭 제스쳐
+    @objc func capturePicture(sender: UITapGestureRecognizer) {
+        
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        
+        imagePickerController.sourceType = .savedPhotosAlbum //시뮬레이터는 카메라가 없으므로, 실 아이폰의 경우 이 코드 삭제
+        
+        present(imagePickerController, animated: true, completion: nil) //UIImagePickerController 전이 된단
     }
     
     //알림 수신 시 실행할 함수
@@ -191,6 +211,34 @@ extension MyProfileViewController {
                 self.initMyProfile()
             }
         }
+    }
+}
+
+//이미지뷰 탭
+extension MyProfileViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    
+    //
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage //UIImage 가져옴
+        
+        //이미지에 대한 추가적인 작업
+        profileImageView.image = image //화면에 보임
+        for i in 0..<users.count {
+            if appDelegate.id == users[i].id {
+                let user = users[i]
+                ImagePool.putImage(name: user.imageName, image: profileImageView.image)
+                UsersDbFirebase.uploadImage(imageName: user.imageName, image: profileImageView.image) {
+                    self.usersDbFirebase?.saveChange(key: String(user.id), object: User.toDict(user: user), action: .modify)
+                }
+            }
+        }
+        
+        picker.dismiss(animated: true, completion: nil) //imagePickerController 죽임
+    }
+    
+    //사진 캡쳐 취소하는 경우
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil) //imagePickerController 죽임
     }
 }
 

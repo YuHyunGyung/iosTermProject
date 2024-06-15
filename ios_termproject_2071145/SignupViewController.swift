@@ -44,7 +44,7 @@ class SignupViewController: UIViewController {
         let userId = userIdText
         let password = passwordText
         let name = nameText
-        let imageName = "default_profile"
+        let imageName = String(id)
         let account = 0
         var user = User(id: id, userId: userId, password: password, name: name, imageName: imageName, account: account)
         
@@ -53,31 +53,31 @@ class SignupViewController: UIViewController {
                 id = users[i].id
                 self.showToast(message: "이미 존재하는 회원입니다!")
                 print("signupUser users: ", users)
-                
-                //user = User(id: id, userId: userId, password: password, name: name, imageName: imageName, account: account)
-                //usersDbFirebase?.saveChange(key: String(id), object: User.toDict(user: user), action: .modify)
                 return
             }
         }
         
-        //신규삽입
-        //users.append(user)
-        Auth.auth().createUser(withEmail: userId+"@hansung.ac.kr", password: password) {
-            result, error in
-            if let error = error {
-                print(error)
+        ImagePool.putImage(name: imageName, image: UIImage(named: "default_profile"))
+        UsersDbFirebase.uploadImage(imageName: imageName, image: UIImage(named: "default_profile")) {
+            //신규삽입
+            //users.append(user)
+            Auth.auth().createUser(withEmail: userId+"@hansung.ac.kr", password: password) {
+                result, error in
+                if let error = error {
+                    print(error)
+                }
+                if let result = result {
+                    print(result)
+                }
             }
-            if let result = result {
-                print(result)
-            }
+            self.usersDbFirebase?.saveChange(key: String(id), object: User.toDict(user: user), action: .add)
+            
+            //profileImage = ImagePool.image(name: imageName)
+            //modifyUser(usersDbFirebase: usersDbFirebase, user: user)
+            
+            self.showToast(message: "회원가입을 완료하였습니다!")
+            self.performSegue(withIdentifier: "GotoLogin", sender: nil)
         }
-        usersDbFirebase?.saveChange(key: String(id), object: User.toDict(user: user), action: .add)
-        
-        //profileImage = ImagePool.image(name: imageName)
-        //modifyUser(usersDbFirebase: usersDbFirebase, user: user)
-        
-        self.showToast(message: "회원가입을 완료하였습니다!")
-        performSegue(withIdentifier: "GotoLogin", sender: nil)
     }
     
     
@@ -165,30 +165,6 @@ class SignupViewController: UIViewController {
         })
     }
 }
-
-
-//extension
-extension SignupViewController {
-  func modifyUser(usersDbFirebase: UsersDbFirebase?, user: User){
-
-    //성능을 위하여 우선 이미지 풀에 저장한다.
-    ImagePool.putImage(name: user.imageName, image: profileImage)
-    if user.id >= 1011{
-        // 파이어베이스에 저장되어야 하면
-        // 먼저 이미지부터 자장하고, 저장이 완료되면
-        UsersDbFirebase.uploadImage(imageName: user.imageName, image: profileImage){
-
-        // 이것은 후행클러저이다
-        // 이미지 저장이 완료되면 여기를 스레드가 수행한다.
-        // 이제야 정보를 파이어베이스에 저장한다.
-        usersDbFirebase?.saveChange(key: String(user.id), object: User.toDict(user: user), action: .modify)
-      }
-    }
-      
-  }
-}
-
-
 
 //화면 전환 - 회원가입 성공시 로그인 화면
 extension SignupViewController {

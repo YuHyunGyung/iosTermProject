@@ -87,15 +87,9 @@ extension SearchFriendViewController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendyhg") as! SearchFriendTableViewCell //custom한 cell로 캐스팅
         
-        
-        /*
-        for view in cell.contentView.subviews {
-            view.removeFromSuperview()
+        ImagePool.image(name: user.imageName, size: CGSize(width: 85, height: 85)) { [weak self] image in
+            cell.profileImage.image = image
         }
-        */
-        
-        
-        cell.profileImage.image = UIImage(named: user.imageName) //유저 이미지
         cell.name.text = user.name //유저 닉네임
         
         if following.contains(user.id) { //유저 팔로잉, 팔로우 구분 버튼
