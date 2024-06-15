@@ -16,13 +16,15 @@ struct User: Hashable, Codable, Identifiable {
     var password: String
     var name: String
     var imageName: String
+    var account: Int
     
-    init(id: Int, userId: String, password: String, name: String, imageName: String) {
+    init(id: Int, userId: String, password: String, name: String, imageName: String, account: Int) {
         self.id = id
         self.userId = userId
         self.password = password
         self.name = name
         self.imageName = imageName
+        self.account = account
     }
     
     func uiImage(size: CGSize? = nil, completion: @escaping (UIImage) -> Void) -> Void{
@@ -68,6 +70,7 @@ extension User{
         dict["name"] = user.name
         dict["imageName"] = user.imageName
         dict["datetime"] = Date().timeIntervalSince1970
+        dict["account"] = user.account
 
         return dict
     }
@@ -79,7 +82,8 @@ extension User{
         let password = dict["password"] as! String
         let name = dict["name"] as! String
         let imageName = dict["imageName"] as! String
+        let account = dict["account"] as! Int
 
-        return User(id: id, userId: userId, password: password, name: name, imageName: imageName)
+        return User(id: id, userId: userId, password: password, name: name, imageName: imageName, account: account)
     }
 }

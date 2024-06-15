@@ -42,6 +42,9 @@
 		E0E20D962C1C20DF00E717E2 /* UsersMeetingDbFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E20D952C1C20DF00E717E2 /* UsersMeetingDbFirebase.swift */; };
 		E0E20D9A2C1C7EAE00E717E2 /* AddMeetingFriendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E20D992C1C7EAE00E717E2 /* AddMeetingFriendCollectionViewCell.swift */; };
 		E0E20D9C2C1C9A5600E717E2 /* AddMeetingFriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E20D9B2C1C9A5600E717E2 /* AddMeetingFriendTableViewCell.swift */; };
+		E0E20D9E2C1D8F0900E717E2 /* AccountChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E20D9D2C1D8F0900E717E2 /* AccountChargeViewController.swift */; };
+		E0E20DA22C1DAE1A00E717E2 /* MeetingAccountCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E20DA12C1DAE1A00E717E2 /* MeetingAccountCollectionViewCell.swift */; };
+		E0E20DA42C1DB7FB00E717E2 /* MeetingAccountChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E20DA32C1DB7FB00E717E2 /* MeetingAccountChargeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +77,9 @@
 		E0E20D952C1C20DF00E717E2 /* UsersMeetingDbFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersMeetingDbFirebase.swift; sourceTree = "<group>"; };
 		E0E20D992C1C7EAE00E717E2 /* AddMeetingFriendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMeetingFriendCollectionViewCell.swift; sourceTree = "<group>"; };
 		E0E20D9B2C1C9A5600E717E2 /* AddMeetingFriendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMeetingFriendTableViewCell.swift; sourceTree = "<group>"; };
+		E0E20D9D2C1D8F0900E717E2 /* AccountChargeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountChargeViewController.swift; sourceTree = "<group>"; };
+		E0E20DA12C1DAE1A00E717E2 /* MeetingAccountCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingAccountCollectionViewCell.swift; sourceTree = "<group>"; };
+		E0E20DA32C1DB7FB00E717E2 /* MeetingAccountChargeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingAccountChargeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,7 +136,10 @@
 				E08412062C19FECA00231A93 /* SearchFriendViewController.swift */,
 				E08412442C1A2F1B00231A93 /* SearchFriendTableViewCell.swift */,
 				E08412082C19FED400231A93 /* MyProfileViewController.swift */,
+				E0E20D9D2C1D8F0900E717E2 /* AccountChargeViewController.swift */,
 				E084120A2C19FF0A00231A93 /* AccountViewController.swift */,
+				E0E20DA12C1DAE1A00E717E2 /* MeetingAccountCollectionViewCell.swift */,
+				E0E20DA32C1DB7FB00E717E2 /* MeetingAccountChargeViewController.swift */,
 				E08412372C1A0B6700231A93 /* ModelData.swift */,
 				E08412572C1A3F2200231A93 /* Image.swift */,
 				E08412592C1A981100231A93 /* ImagePool.swift */,
@@ -254,10 +263,13 @@
 				E084120F2C1A074100231A93 /* Meeting.swift in Sources */,
 				E055DB862C19E534003B7D7E /* SceneDelegate.swift in Sources */,
 				E08412562C1A3E4800231A93 /* User.swift in Sources */,
+				E0E20DA22C1DAE1A00E717E2 /* MeetingAccountCollectionViewCell.swift in Sources */,
 				E08412582C1A3F2300231A93 /* Image.swift in Sources */,
+				E0E20D9E2C1D8F0900E717E2 /* AccountChargeViewController.swift in Sources */,
 				E08412452C1A2F1B00231A93 /* SearchFriendTableViewCell.swift in Sources */,
 				E08412382C1A0B6700231A93 /* ModelData.swift in Sources */,
 				E08412092C19FED400231A93 /* MyProfileViewController.swift in Sources */,
+				E0E20DA42C1DB7FB00E717E2 /* MeetingAccountChargeViewController.swift in Sources */,
 				E055DB9E2C19FA95003B7D7E /* HomeViewController.swift in Sources */,
 				E0E20D9C2C1C9A5600E717E2 /* AddMeetingFriendTableViewCell.swift in Sources */,
 				E08412542C1A3C5200231A93 /* Database.swift in Sources */,

@@ -53,11 +53,11 @@ class LoginViewController: UIViewController {
                     
                     for i in 0..<self.users.count {
                         if(userId == self.users[i].userId && password == self.users[i].password) {
-                            //self.id = self.users[i].id
-                            //self.stringId = String(self.users[i].id)
                             self.appDelegate.id = self.users[i].id
                             self.appDelegate.userId = self.users[i].userId
                             self.appDelegate.name = self.users[i].name
+                            //self.appDelegate.account = self.users[i].account
+                            
                             print("LoginViewController id : ", self.appDelegate.id, " userId : ", self.appDelegate.userId, " name : ", self.appDelegate.name, "\n")
                             return 
                         }

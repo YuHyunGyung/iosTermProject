@@ -122,7 +122,7 @@ extension SearchFriendViewController: UITableViewDataSource {
     
     //각 섹션에 대하여 몇개의 행을 가질것인가. 섹션이 하나라 한번만 호출됨
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("filterdUsers.count : ", filteredUsers.count)
+        print("filteredUsers.count : ", filteredUsers.count)
         return filteredUsers.count
     }
     

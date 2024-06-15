@@ -10,11 +10,11 @@ struct Meeting: Hashable, Codable, Identifiable {
     var date: String //약속 날짜
     var memo: String //메모
     var member:Array<Int> = Array<Int>() //모임 멤버
-    var account: String //잔액
+    var account: Int //잔액
     
     
     
-    init(id: Int, meetingId: Int, name: String, title: String, date: String, memo: String, member: Array<Int>, account: String) {
+    init(id: Int, meetingId: Int, name: String, title: String, date: String, memo: String, member: Array<Int>, account: Int) {
         self.id = id
         self.meetingId = meetingId
         self.name = name
@@ -51,7 +51,7 @@ extension Meeting{
         let date = dict["date"] as! String
         let memo = dict["memo"] as! String
         let member = dict["member"] as! Array<Int>
-        let account = dict["account"] as! String
+        let account = dict["account"] as! Int
         
         return Meeting(id: id, meetingId: meetingId, name: name, title: title, date: date, memo: memo, member: member, account: account)
     }

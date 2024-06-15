@@ -52,7 +52,6 @@ class HomeViewController: UIViewController {
             appDelegate.meetings.append(meeting)
             filteredMeetings = appDelegate.meetings
             print("HomeViewController manage add meeting: ", filteredMeetings)
-            return
         }
         
         for i in 0..<appDelegate.meetings.count {
@@ -142,6 +141,8 @@ extension HomeViewController: UISearchBarDelegate {
     }
 }
 
+
+//전이
 extension HomeViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 

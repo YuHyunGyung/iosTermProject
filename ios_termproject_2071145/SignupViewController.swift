@@ -45,7 +45,8 @@ class SignupViewController: UIViewController {
         let password = passwordText
         let name = nameText
         let imageName = "default_profile"
-        var user = User(id: id, userId: userId, password: password, name: name, imageName: imageName)
+        let account = 0
+        var user = User(id: id, userId: userId, password: password, name: name, imageName: imageName, account: account)
         
         for i in 0..<users.count {
             if userId == users[i].userId {
@@ -53,11 +54,12 @@ class SignupViewController: UIViewController {
                 self.showToast(message: "이미 존재하는 회원입니다!")
                 print("signupUser users: ", users)
                 
-                user = User(id: id, userId: userId, password: password, name: name, imageName: imageName)
-                usersDbFirebase?.saveChange(key: String(id), object: User.toDict(user: user), action: .modify)
+                //user = User(id: id, userId: userId, password: password, name: name, imageName: imageName, account: account)
+                //usersDbFirebase?.saveChange(key: String(id), object: User.toDict(user: user), action: .modify)
                 return
             }
         }
+        
         //신규삽입
         //users.append(user)
         Auth.auth().createUser(withEmail: userId+"@hansung.ac.kr", password: password) {

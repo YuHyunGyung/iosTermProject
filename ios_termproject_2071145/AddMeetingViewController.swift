@@ -196,7 +196,7 @@ class AddMeetingViewController: UIViewController {
             member.append(appDelegate.id)
         }
         //var member: [Int] = []
-        var account: String = "0" //계좌 잔액
+        var account: Int = 0 //계좌 잔액
         
         if let selectedMeeting = selectedMeeting { //신규 삽입이 아니면 수정
             id = appDelegate.meetings[selectedMeeting].id
@@ -285,7 +285,6 @@ extension AddMeetingViewController {
         if dbaction == .add {
             //appDelegate.meetings.append(meeting)
             print("AddMeetingViewController manage add meeting : ", appDelegate.meetings)
-            return
         }
         
         if dbaction == .delete {
@@ -297,27 +296,9 @@ extension AddMeetingViewController {
                 if dbaction == .modify {
                     appDelegate.meetings[i] = meeting
                     print("AddMeetingViewController manage modify meeting : ", appDelegate.meetings)
-                    return
                 }
             }
         }
-        
-        /*
-        if dbaction == .add {
-            meetings.append(meeting)
-            return
-        }
-        */
-        
-        /*
-        for i in 0..<appDelegate.meetings.count {
-            if meeting.meetingId == appDelegate.meetings[i].meetingId { //이미 있으면
-                if dbaction == .modify {
-                    
-                }
-            }
-        }
-        */
     }
 }
 
@@ -328,14 +309,6 @@ extension AddMeetingViewController: UICollectionViewDataSource {
     //몇개의 아이템이 있는지
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return meetingsMembers.count
-        
-        /*
-        //선택한 셀이 있으면 멤버의 수만큼, 아니면 0
-        guard let selectedMeeting = selectedMeeting else {
-            return membersInt.count
-        }
-        return appDelegate.meetings[selectedMeeting].member.count
-        */
     }
     
     
@@ -401,9 +374,7 @@ extension AddMeetingViewController: UICollectionViewDataSource {
         
         
         cell.deleteButtonAction = { [weak self] in
-            print("delete indexPath : ", indexPath, "indexPath item : ", indexPath.item)
             guard let indexPath = collectionView.indexPath(for: cell) else { return }
-            print("delete indexPath : ", indexPath, "indexPath item : ", indexPath.item)
             self?.deleteMember(at: indexPath)
         }
         
