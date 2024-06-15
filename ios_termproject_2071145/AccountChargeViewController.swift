@@ -13,8 +13,8 @@ class AccountChargeViewController: UIViewController {
     
     var myprofileViewController: MyProfileViewController!
     
-    var usersDbFirebase: UsersDbFirebase?
-    var users: [User] = []
+    //var usersDbFirebase: UsersDbFirebase?
+    //var users: [User] = []
     
     @IBOutlet weak var account: UITextField!
     var accountInt = 0
@@ -22,7 +22,7 @@ class AccountChargeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        usersDbFirebaseSet()
+        //usersDbFirebaseSet()
     }
     
     //충전하기 button
@@ -32,14 +32,16 @@ class AccountChargeViewController: UIViewController {
             accountInt += accountValue
         }
         
-        for i in 0..<users.count {
-            if appDelegate.id == users[i].id {
-                let usr = users[i]
+        for i in 0..<myprofileViewController.users.count {
+            if appDelegate.id == myprofileViewController.users[i].id {
+                print("come")
+                
+                let usr = myprofileViewController.users[i]
                 accountInt += usr.account
                 
                 
                 let user = User(id: usr.id, userId: usr.userId, password: usr.password, name: usr.name, imageName: usr.imageName, account: accountInt)
-                usersDbFirebase?.saveChange(key: String(usr.id), object: User.toDict(user: user), action: .modify)
+                myprofileViewController.usersDbFirebase?.saveChange(key: String(usr.id), object: User.toDict(user: user), action: .modify)
                 
                 self.navigationController?.popToRootViewController(animated: true)
                 return
@@ -49,6 +51,7 @@ class AccountChargeViewController: UIViewController {
     }
 }
 
+/*
 //firestore
 extension AccountChargeViewController {
     //전체유저
@@ -65,7 +68,7 @@ extension AccountChargeViewController {
         
         if dbaction == .add {
             users.append(user)
-            print("MyProfileViewController manage users : ", users)
+            print("AccountChargeViewController manage users : ", users)
         }
         
         if dbaction == .modify {
@@ -73,3 +76,4 @@ extension AccountChargeViewController {
         }
     }
 }
+*/

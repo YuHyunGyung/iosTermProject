@@ -13,7 +13,6 @@ class AccountViewController: UIViewController {
     var appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate //AppDelegate 공유
     
     
-    
     @IBOutlet weak var meetingAccountCollectionView: UICollectionView!
     
     override func viewDidLoad() {
@@ -45,7 +44,7 @@ extension AccountViewController: UICollectionViewDataSource {
         let meeting = appDelegate.meetings[indexPath.item]
         
         cell.title.text = meeting.title
-        cell.account.text = String(meeting.account)
+        cell.account.text = String(meeting.account)+"원"
         
         //charge button action
         cell.chargeButtonAction = { [weak self] in
@@ -58,12 +57,6 @@ extension AccountViewController: UICollectionViewDataSource {
     
     //모임 계좌에 잔액 충전
     func chargeAccount(at indexPath: IndexPath) {
-        /*
-        if indexPath.item < appDelegate.meetings.count {
-            let meeting = appDelegate.meetings[indexPath.item]
-        }
-        */
-        
         performSegue(withIdentifier: "GotoMeetingCharge", sender: indexPath)
     }
 }

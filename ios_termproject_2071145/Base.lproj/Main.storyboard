@@ -930,27 +930,23 @@
                                                 <color key="backgroundColor" name="AccentColor"/>
                                             </stackView>
                                         </subviews>
-                                        <color key="backgroundColor" red="1" green="0.62581949299999995" blue="0.65739729020000004" alpha="1" colorSpace="calibratedRGB"/>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uL0-rB-7QI">
                                         <rect key="frame" x="0.0" y="125.33333333333333" width="373" height="20.333333333333329"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="잔액" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PGq-Oe-p8C">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="잔액" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PGq-Oe-p8C">
                                                 <rect key="frame" x="0.0" y="0.0" width="186.66666666666666" height="20.333333333333332"/>
-                                                <color key="backgroundColor" red="1" green="0.89871241710000005" blue="0.36176128270000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2,000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vwq-oa-GJi">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2000원" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vwq-oa-GJi">
                                                 <rect key="frame" x="186.66666666666663" y="0.0" width="186.33333333333337" height="20.333333333333332"/>
-                                                <color key="backgroundColor" red="0.35469067096710205" green="0.90671306848526001" blue="0.8927798867225647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" red="1" green="0.62581949299999995" blue="0.65739729020000004" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstItem="PGq-Oe-p8C" firstAttribute="width" secondItem="Vwq-oa-GJi" secondAttribute="width" id="OK7-pJ-tJo"/>
                                         </constraints>
@@ -999,6 +995,7 @@
                     <navigationItem key="navigationItem" id="Fen-jz-UbW"/>
                     <connections>
                         <outlet property="accountLabel" destination="Vwq-oa-GJi" id="FLj-oe-dfF"/>
+                        <outlet property="followerLabel" destination="RTA-c2-uj5" id="dBN-uQ-vao"/>
                         <outlet property="followingLabel" destination="Sl8-Yp-bua" id="z06-Xq-MyB"/>
                         <outlet property="profileImageView" destination="2c1-o0-U6P" id="rOv-hB-kdZ"/>
                         <outlet property="userNameLabel" destination="VJN-vK-6Df" id="qqt-qT-Rln"/>

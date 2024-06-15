@@ -45,6 +45,7 @@
 		E0E20D9E2C1D8F0900E717E2 /* AccountChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E20D9D2C1D8F0900E717E2 /* AccountChargeViewController.swift */; };
 		E0E20DA22C1DAE1A00E717E2 /* MeetingAccountCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E20DA12C1DAE1A00E717E2 /* MeetingAccountCollectionViewCell.swift */; };
 		E0E20DA42C1DB7FB00E717E2 /* MeetingAccountChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E20DA32C1DB7FB00E717E2 /* MeetingAccountChargeViewController.swift */; };
+		E0E20DA62C1DED7100E717E2 /* Follower.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E20DA52C1DED7100E717E2 /* Follower.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +81,7 @@
 		E0E20D9D2C1D8F0900E717E2 /* AccountChargeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountChargeViewController.swift; sourceTree = "<group>"; };
 		E0E20DA12C1DAE1A00E717E2 /* MeetingAccountCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingAccountCollectionViewCell.swift; sourceTree = "<group>"; };
 		E0E20DA32C1DB7FB00E717E2 /* MeetingAccountChargeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingAccountChargeViewController.swift; sourceTree = "<group>"; };
+		E0E20DA52C1DED7100E717E2 /* Follower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Follower.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 				E08412552C1A3E4800231A93 /* User.swift */,
 				E08412512C1A3C5100231A93 /* UsersDbFirebase.swift */,
 				E084125F2C1ADB4800231A93 /* Following.swift */,
+				E0E20DA52C1DED7100E717E2 /* Follower.swift */,
 				E084125D2C1ABA4200231A93 /* UsersFollowingDbFirebase.swift */,
 				E084124F2C1A3BFB00231A93 /* GoogleService-Info.plist */,
 				E08412522C1A3C5100231A93 /* Database.swift */,
@@ -256,6 +259,7 @@
 				E055DB9C2C19E910003B7D7E /* SignupViewController.swift in Sources */,
 				E084125A2C1A981100231A93 /* ImagePool.swift in Sources */,
 				E055DB842C19E534003B7D7E /* AppDelegate.swift in Sources */,
+				E0E20DA62C1DED7100E717E2 /* Follower.swift in Sources */,
 				E0E20D9A2C1C7EAE00E717E2 /* AddMeetingFriendCollectionViewCell.swift in Sources */,
 				E08412602C1ADB4800231A93 /* Following.swift in Sources */,
 				E084125E2C1ABA4200231A93 /* UsersFollowingDbFirebase.swift in Sources */,

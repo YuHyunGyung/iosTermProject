@@ -15,13 +15,18 @@ class MyProfileViewController: UIViewController {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var followingLabel: UILabel!
+    @IBOutlet weak var followerLabel: UILabel!
     @IBOutlet weak var accountLabel: UILabel!
     
     var usersDbFirebase: UsersDbFirebase?
     var users: [User] = []
+    var filteredUsers: [User] = []
     
     var usersFollowingDbFirebase: UsersFollowingDbFirebase?
     var following: [Int] = []
+    var follower: [Int] = []
+    
+    var searchFriendViewController: SearchFriendViewController!
     
     
     override func viewDidLoad() {
@@ -48,7 +53,8 @@ class MyProfileViewController: UIViewController {
                 userNameLabel.text = user.name //유저 닉네임
                 profileImageView.image = UIImage(named: user.imageName) //프로필 이미지
                 followingLabel.text = String(following.count) //팔로잉 수
-                accountLabel.text = String(user.account) //계좌 잔액
+                followerLabel.text = String(follower.count) //팔로워 수
+                accountLabel.text = String(user.account)+"원" //계좌 잔액
                 return
             }
         }
@@ -85,8 +91,17 @@ extension MyProfileViewController {
             print("MyProfileViewController manage users : ", users)
         }
         
-        if dbaction == .modify {
-            
+        for i in 0..<users.count {
+            if appDelegate.id == users[i].id {
+                if dbaction == .modify {
+                    users[i] = user
+                }
+            }
+        }
+        
+        // UI 업데이트
+        DispatchQueue.main.async {
+            self.initMyProfile()
         }
     }
         
@@ -109,6 +124,20 @@ extension MyProfileViewController {
                     }
                 }
                 print("MyProfileViewController manage following: ", self.following)
+            }
+            
+            Firestore.firestore().collection("Users").document(String(appDelegate.id)).collection("Follower").getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error getting following documents: \(error)")
+                } else {
+                    self.follower.removeAll() // 기존 팔로잉 데이터를 지우기
+                    for document in querySnapshot!.documents {
+                        let data = document.data()
+                        let follow = Follower.fromDict(dict: data)
+                        self.follower.append(follow.id)
+                    }
+                }
+                print("MyProfileViewController manage follower: ", self.follower)
             }
         }
     }

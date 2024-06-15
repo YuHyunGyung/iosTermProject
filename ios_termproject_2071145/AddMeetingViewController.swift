@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseFirestore
 
-//신규 모임 추가 하는 컨트롤러
+//모임 저장하는 컨트롤러
 class AddMeetingViewController: UIViewController {
     var appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate //AppDelegate 공유
     

@@ -34,6 +34,7 @@ class UsersFollowingDbFirebase: Database {
         //이런한 key에 대하여 add, delete, modify를 하라
         if action == .delete {
             reference.document(String(appDelegate.id)).collection("Following").document(key).delete()
+            reference.document(key).collection("Follower").document(String(appDelegate.id)).delete()
             return
         }
          
@@ -43,9 +44,9 @@ class UsersFollowingDbFirebase: Database {
         
         //object -> 키 id의 값 가져오기
         if let objectIdValue = object["id"] as? Int {
-            //id = String(objectIdValue)
-            print("UsersFollowingDbFirebase id : ", appDelegate.id)
+            let follower = ["id":appDelegate.id]
             reference.document(String(appDelegate.id)).collection("Following").document(key).setData(object)
+            reference.document(key).collection("Follower").document(String(appDelegate.id)).setData(follower)
         }
         else {
             print("UsersFollowingDbFirebase : id not found or no and Int")
