@@ -92,37 +92,33 @@ extension SearchFriendViewController: UITableViewDataSource {
         }
         cell.name.text = user.name //유저 닉네임
         
-        if following.contains(user.id) { //유저 팔로잉, 팔로우 구분 버튼
-            //cell.followingButton.setButtonBackgroundColor(.gray, for: .normal)
+        //팔로우 버튼 눌렀을때
+        cell.followingButton.addTarget(self, action: #selector(followButtonTapped(_:)), for: .touchUpInside)
+        cell.followingButton.tag = indexPath.row
+        
+        if following.contains(user.id) {
             cell.followingButton.backgroundColor = .gray
             cell.followingButton.setTitle("팔로잉", for: .normal)
         } else {
-            //cell.followingButton.setButtonBackgroundColor(.yellow, for: .normal)
             cell.followingButton.backgroundColor = .systemYellow
             cell.followingButton.setTitle("팔로우", for: .normal)
         }
         
         return cell
-        
     }
-}
-//tableView - delegate
-extension SearchFriendViewController: UITableViewDelegate {
-    //특정 row를 클릭하면 이 함수가 호출됨
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    @objc func followButtonTapped(_ sender: UIButton) {
+        guard sender.tag < filteredUsers.count else { return }
+        let user = filteredUsers[sender.tag]
         
+        let followUser = Following(id: user.id, userId: user.userId) //변경할 내용이 있는 유저 정보
         
-        let selectedUser = filteredUsers[indexPath.row] //팔로우, 팔로잉 버튼 클릭된 유저
-        let followUser = Following(id: selectedUser.id, userId: selectedUser.userId) //변경할 내용이 있는 유저 정보
-        
-        let isFollowing = following.contains(selectedUser.id) //팔로우 하고 있는지 확인
+        let isFollowing = following.contains(user.id) //팔로우 하고 있는지 확인
         if !isFollowing { //팔로우하지 않은 상태라면
-            //following.append(selectedUser.id)
-            usersFollowingDbFirebase?.saveChange(key: String(selectedUser.id), object: Following.toDict(following: followUser), action: .modify)
+            usersFollowingDbFirebase?.saveChange(key: String(user.id), object: Following.toDict(following: followUser), action: .modify)
         }
         else { //팔로우 한 상태라면
-            //following.remove(at: indexPath.row)
-            usersFollowingDbFirebase?.saveChange(key: String(selectedUser.id), object: Following.toDict(following: followUser), action: .delete)
+            usersFollowingDbFirebase?.saveChange(key: String(user.id), object: Following.toDict(following: followUser), action: .delete)
         }
         
         
@@ -142,8 +138,8 @@ extension SearchFriendViewController: UITableViewDelegate {
 
 
                 //버튼 내용 바꾸기
-                if let cell = tableView.cellForRow(at: indexPath) as? SearchFriendTableViewCell {
-                    if self.following.contains(selectedUser.id) {
+                if let cell = self.searchFriendTableView.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? SearchFriendTableViewCell {
+                    if self.following.contains(user.id) {
                     cell.followingButton.backgroundColor = .gray
                     cell.followingButton.setTitle("팔로잉", for: .normal)
                     }
@@ -152,11 +148,14 @@ extension SearchFriendViewController: UITableViewDelegate {
                         cell.followingButton.setTitle("팔로우", for: .normal)
                     }
                 }
-                
-                print("SearchFriendViewController table delegate following: ", self.following)
             }
         }
-        
+    }
+}
+//tableView - delegate
+extension SearchFriendViewController: UITableViewDelegate {
+    //특정 row를 클릭하면 이 함수가 호출됨
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
     
     //cell 높이
