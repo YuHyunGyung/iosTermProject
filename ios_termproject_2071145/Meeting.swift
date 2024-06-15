@@ -45,7 +45,7 @@ extension Meeting{
     static func fromDict(dict: [String: Any]) -> Meeting{
         
         let id = dict["id"] as! Int
-        let meetingId = dict["meeingId"] as! Int
+        let meetingId = dict["meetingId"] as! Int
         let name = dict["name"] as! String
         let title = dict["title"] as! String
         let date = dict["date"] as! String

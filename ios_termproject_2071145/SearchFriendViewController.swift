@@ -31,7 +31,6 @@ class SearchFriendViewController: UIViewController {
         super.viewDidLoad()
         appDelegate = UIApplication.shared.delegate as! AppDelegate //AppDelegate 공유
         
-        print("Recived stringId : ", appDelegate.id)
         usersDbFirebase = UsersDbFirebase(parentNotification: manageUsersDatabase)
         usersDbFirebase?.setQuery(from: 1, to: 10000)
         
@@ -40,11 +39,28 @@ class SearchFriendViewController: UIViewController {
         
         //
         searchBar.delegate = self
+        
+        //
         searchFriendTableView.dataSource = self
         searchFriendTableView.delegate = self
         
         firestoreFollowingUsers()
         
+        Firestore.firestore().collection("Users").getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting users documents: \(error)")
+            } else {
+                self.users.removeAll()
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    let user = User.fromDict(dict: data)
+                    self.users.append(user)
+                }
+            }
+            print("viewDidLoad users : ", self.users)
+            self.filteredUsers = self.users
+            self.searchFriendTableView.reloadData()
+        }
     }
     
     
@@ -53,11 +69,15 @@ class SearchFriendViewController: UIViewController {
         guard let dict = dict else { return }
         let user = User.fromDict(dict: dict)
         
+        /*
         if dbaction == .add {
             users.append(user)
             filteredUsers = users
+            
+            print("SearchFriendViewController manage users : ", users)
             return
         }
+        */
     }
     
     //팔로잉 신규 데이터 '삽입'으로 생성된 데이터 불러오기
@@ -66,6 +86,7 @@ class SearchFriendViewController: UIViewController {
         guard let dict = dict else { return }
         let follow = Following.fromDict(dict: dict)
         
+        /*
         if dbaction == .add {
             
             Firestore.firestore().collection("Users").document(String(appDelegate.id)).collection("Following").getDocuments { (querySnapshot, error) in
@@ -79,7 +100,7 @@ class SearchFriendViewController: UIViewController {
                         self.following.append(follow.id)
                     }
                 }
-                print("SearchFriendViewController viewDidload following: ", self.following)
+                print("SearchFriendViewController manage following: ", self.following)
             }
         
             
@@ -88,6 +109,7 @@ class SearchFriendViewController: UIViewController {
             print("following data : ", following)
             return
         }
+        */
     }
 }
 
@@ -100,13 +122,20 @@ extension SearchFriendViewController: UITableViewDataSource {
     
     //각 섹션에 대하여 몇개의 행을 가질것인가. 섹션이 하나라 한번만 호출됨
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("filterdUsers.count : ", filteredUsers.count)
         return filteredUsers.count
     }
     
     //각 섹션이 행에 해당하는 UITableViewCell 만들어달라
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "friendyhg") as! SearchFriendTableViewCell //custom한 cell로 캐스팅
+        
         let user = filteredUsers[indexPath.row]
+        if appDelegate.id == user.id {
+            return UITableViewCell()
+        }
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "friendyhg") as! SearchFriendTableViewCell //custom한 cell로 캐스팅
+        
         
         /*
         for view in cell.contentView.subviews {
@@ -176,15 +205,19 @@ extension SearchFriendViewController: UITableViewDelegate {
                     }
                 }
                 
-                //self.searchFriendTableView.reloadData()
-                print("SearchFriendViewController viewDidload following: ", self.following)
+                print("SearchFriendViewController table delegate following: ", self.following)
             }
         }
     }
     
     //cell 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        let user = filteredUsers[indexPath.row]
+        if user.id == appDelegate.id {
+            return 0
+        } else {
+            return 70
+        }
     }
 }
 
@@ -243,7 +276,7 @@ extension SearchFriendViewController {
             }
             
             self.searchFriendTableView.reloadData()
-            print("SearchFriendViewController viewDidload following: ", self.following)
+            print("SearchFriendViewController extension following: ", self.following)
         }
     }
 }

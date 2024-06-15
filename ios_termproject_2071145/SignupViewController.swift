@@ -71,8 +71,8 @@ class SignupViewController: UIViewController {
         }
         usersDbFirebase?.saveChange(key: String(id), object: User.toDict(user: user), action: .add)
         
-        profileImage = ImagePool.image(name: imageName)
-        modifyUser(usersDbFirebase: usersDbFirebase, user: user)
+        //profileImage = ImagePool.image(name: imageName)
+        //modifyUser(usersDbFirebase: usersDbFirebase, user: user)
         
         self.showToast(message: "회원가입을 완료하였습니다!")
         performSegue(withIdentifier: "GotoLogin", sender: nil)

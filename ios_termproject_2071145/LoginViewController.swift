@@ -58,7 +58,8 @@ class LoginViewController: UIViewController {
                             self.appDelegate.id = self.users[i].id
                             self.appDelegate.userId = self.users[i].userId
                             self.appDelegate.name = self.users[i].name
-                            print("LoginViewController id : ", self.appDelegate.id, " userId : ", self.appDelegate.userId, " name : ", self.appDelegate.name)
+                            print("LoginViewController id : ", self.appDelegate.id, " userId : ", self.appDelegate.userId, " name : ", self.appDelegate.name, "\n")
+                            return 
                         }
                     }
                 }

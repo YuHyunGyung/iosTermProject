@@ -13,7 +13,7 @@ import FirebaseFirestore
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    var meetings: [Meeting] = ios_termproject_2071145.load("meetingData.json") //모든 컨트롤러에서 공유함
+    var meetings: [Meeting] = [] //ios_termproject_2071145.load("meetingData.json") //모든 컨트롤러에서 공유함
     var id: Int = -1 //유저 primary key
     var userId: String = "" //유저 아이디
     var name: String = "" //유저 닉네임

@@ -40,6 +40,8 @@
 		E08412602C1ADB4800231A93 /* Following.swift in Sources */ = {isa = PBXBuildFile; fileRef = E084125F2C1ADB4800231A93 /* Following.swift */; };
 		E0E20D942C1B434800E717E2 /* AddMeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E20D932C1B434800E717E2 /* AddMeetingViewController.swift */; };
 		E0E20D962C1C20DF00E717E2 /* UsersMeetingDbFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E20D952C1C20DF00E717E2 /* UsersMeetingDbFirebase.swift */; };
+		E0E20D9A2C1C7EAE00E717E2 /* AddMeetingFriendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E20D992C1C7EAE00E717E2 /* AddMeetingFriendCollectionViewCell.swift */; };
+		E0E20D9C2C1C9A5600E717E2 /* AddMeetingFriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E20D9B2C1C9A5600E717E2 /* AddMeetingFriendTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +72,8 @@
 		E084125F2C1ADB4800231A93 /* Following.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Following.swift; sourceTree = "<group>"; };
 		E0E20D932C1B434800E717E2 /* AddMeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMeetingViewController.swift; sourceTree = "<group>"; };
 		E0E20D952C1C20DF00E717E2 /* UsersMeetingDbFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersMeetingDbFirebase.swift; sourceTree = "<group>"; };
+		E0E20D992C1C7EAE00E717E2 /* AddMeetingFriendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMeetingFriendCollectionViewCell.swift; sourceTree = "<group>"; };
+		E0E20D9B2C1C9A5600E717E2 /* AddMeetingFriendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMeetingFriendTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,11 +124,13 @@
 				E055DB992C19E904003B7D7E /* LoginViewController.swift */,
 				E055DB9B2C19E910003B7D7E /* SignupViewController.swift */,
 				E055DB9D2C19FA95003B7D7E /* HomeViewController.swift */,
+				E0E20D932C1B434800E717E2 /* AddMeetingViewController.swift */,
+				E0E20D992C1C7EAE00E717E2 /* AddMeetingFriendCollectionViewCell.swift */,
+				E0E20D9B2C1C9A5600E717E2 /* AddMeetingFriendTableViewCell.swift */,
 				E08412062C19FECA00231A93 /* SearchFriendViewController.swift */,
 				E08412442C1A2F1B00231A93 /* SearchFriendTableViewCell.swift */,
 				E08412082C19FED400231A93 /* MyProfileViewController.swift */,
 				E084120A2C19FF0A00231A93 /* AccountViewController.swift */,
-				E0E20D932C1B434800E717E2 /* AddMeetingViewController.swift */,
 				E08412372C1A0B6700231A93 /* ModelData.swift */,
 				E08412572C1A3F2200231A93 /* Image.swift */,
 				E08412592C1A981100231A93 /* ImagePool.swift */,
@@ -241,6 +247,7 @@
 				E055DB9C2C19E910003B7D7E /* SignupViewController.swift in Sources */,
 				E084125A2C1A981100231A93 /* ImagePool.swift in Sources */,
 				E055DB842C19E534003B7D7E /* AppDelegate.swift in Sources */,
+				E0E20D9A2C1C7EAE00E717E2 /* AddMeetingFriendCollectionViewCell.swift in Sources */,
 				E08412602C1ADB4800231A93 /* Following.swift in Sources */,
 				E084125E2C1ABA4200231A93 /* UsersFollowingDbFirebase.swift in Sources */,
 				E0E20D942C1B434800E717E2 /* AddMeetingViewController.swift in Sources */,
@@ -252,6 +259,7 @@
 				E08412382C1A0B6700231A93 /* ModelData.swift in Sources */,
 				E08412092C19FED400231A93 /* MyProfileViewController.swift in Sources */,
 				E055DB9E2C19FA95003B7D7E /* HomeViewController.swift in Sources */,
+				E0E20D9C2C1C9A5600E717E2 /* AddMeetingFriendTableViewCell.swift in Sources */,
 				E08412542C1A3C5200231A93 /* Database.swift in Sources */,
 				E084120B2C19FF0A00231A93 /* AccountViewController.swift in Sources */,
 			);

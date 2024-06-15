@@ -14,34 +14,59 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var meetingTableView: UITableView!
     
-    
-    //var meetings: [Meeting] = ios_termproject_2071145.load("meetingData.json")
     var filteredMeetings: [Meeting] = [] //검색 필터를 위한 새로운 배열
+    var usersMeetingDbFirebase: UsersMeetingDbFirebase? //firebase 전체 모임
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        filteredMeetings = appDelegate.meetings //filteredMeetings = meetings
         
         self.navigationItem.title = "모임 통장"
         
         searchBar.delegate = self
         meetingTableView.dataSource = self
         meetingTableView.delegate = self
+        
+        usersMeetingDbFirebase = UsersMeetingDbFirebase(parentNotification: manageMeetingDatabase)
+        usersMeetingDbFirebase?.setQuery(from: 1, to: 20000)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         //화면 다시 나타날때 변경된거 보여줌
-        if let indexPath = meetingTableView.indexPathForSelectedRow {
-            
-        }
         filteredMeetings = appDelegate.meetings
+        
+        print("HomeViewController didAppear filteredMeetings", filteredMeetings)
         meetingTableView.reloadData()
     }
     
     //모임 추가하기 버튼
     @IBAction func addMeeting(_ sender: UIButton) {
         performSegue(withIdentifier: "GotoDetail", sender: nil)
+    }
+    
+    //모임 신규 데이터 '삽입'으로 생성된 데이터 불러오기
+    func manageMeetingDatabase(dict: [String: Any]?, dbaction: DbAction?) {
+        guard let dict = dict else { return }
+        let meeting = Meeting.fromDict(dict: dict)
+        
+        if dbaction == .add {
+            appDelegate.meetings.append(meeting)
+            filteredMeetings = appDelegate.meetings
+            print("HomeViewController manage add meeting: ", filteredMeetings)
+            return
+        }
+        
+        for i in 0..<appDelegate.meetings.count {
+            if meeting.meetingId == appDelegate.meetings[i].meetingId { //이미 있으면
+                if dbaction == .modify {
+                    appDelegate.meetings[i] = meeting
+                    filteredMeetings = appDelegate.meetings
+                    
+                    print("HomeViewController manage modify meeting", filteredMeetings)
+                    return
+                }
+            }
+        }
+        
     }
 }
 
@@ -94,7 +119,12 @@ extension HomeViewController: UITableViewDelegate {
     
     //cell 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90
+        let meeting = filteredMeetings[indexPath.row]
+        if meeting.member.contains(appDelegate.id) {
+            return 90
+        } else {
+            return 0
+        }
     }
 }
 
