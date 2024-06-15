@@ -363,6 +363,13 @@ extension AddMeetingViewController: UICollectionViewDataSource {
             }
             cell.nameLable.text = user.name
             print("user info : ", user)
+            
+            // 내 아이디가 있으면 셀을 숨김
+           if appDelegate.id == meetingsMembers[indexPath.item] {
+               cell.isHidden = true // 이 부분이 추가된 부분입니다.
+           } else {
+               cell.isHidden = false // 이 부분이 추가된 부분입니다.
+           }
         } else {
             print("Index out of range for members array")
         }
@@ -403,14 +410,25 @@ extension AddMeetingViewController: UICollectionViewDelegate, UICollectionViewDe
         
     }
     
-    
+    //cell 크기
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
+        //내 아이디가 있으면 안보이게
         if appDelegate.id == meetingsMembers[indexPath.item] {
-            return CGSizeZero
+            return CGSize(width: 0, height: 85)
         }
         
         return CGSize(width: 85, height: 85)
+    }
+    
+    // cell 간의 수평 간격 (Interitem Spacing)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0 // 수평 간격을 0으로 설정
+    }
+    
+    // 셀 간의 여백 설정
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) // 여백을 0으로 설정
     }
 }
 

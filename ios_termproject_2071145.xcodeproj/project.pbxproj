@@ -18,7 +18,6 @@
 		E08412072C19FECA00231A93 /* SearchFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08412062C19FECA00231A93 /* SearchFriendViewController.swift */; };
 		E08412092C19FED400231A93 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08412082C19FED400231A93 /* MyProfileViewController.swift */; };
 		E084120B2C19FF0A00231A93 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E084120A2C19FF0A00231A93 /* AccountViewController.swift */; };
-		E084120D2C1A05B000231A93 /* meetingData.json in Resources */ = {isa = PBXBuildFile; fileRef = E084120C2C1A05B000231A93 /* meetingData.json */; };
 		E084120F2C1A074100231A93 /* Meeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E084120E2C1A074100231A93 /* Meeting.swift */; };
 		E08412382C1A0B6700231A93 /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08412372C1A0B6700231A93 /* ModelData.swift */; };
 		E084123B2C1A2EEA00231A93 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = E084123A2C1A2EEA00231A93 /* FirebaseAnalytics */; };
@@ -62,7 +61,6 @@
 		E08412062C19FECA00231A93 /* SearchFriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFriendViewController.swift; sourceTree = "<group>"; };
 		E08412082C19FED400231A93 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		E084120A2C19FF0A00231A93 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
-		E084120C2C1A05B000231A93 /* meetingData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = meetingData.json; sourceTree = "<group>"; };
 		E084120E2C1A074100231A93 /* Meeting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meeting.swift; sourceTree = "<group>"; };
 		E08412372C1A0B6700231A93 /* ModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
 		E08412442C1A2F1B00231A93 /* SearchFriendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFriendTableViewCell.swift; sourceTree = "<group>"; };
@@ -145,7 +143,6 @@
 				E08412372C1A0B6700231A93 /* ModelData.swift */,
 				E08412572C1A3F2200231A93 /* Image.swift */,
 				E08412592C1A981100231A93 /* ImagePool.swift */,
-				E084120C2C1A05B000231A93 /* meetingData.json */,
 				E084120E2C1A074100231A93 /* Meeting.swift */,
 				E0E20D952C1C20DF00E717E2 /* UsersMeetingDbFirebase.swift */,
 				E08412552C1A3E4800231A93 /* User.swift */,
@@ -237,7 +234,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E084120D2C1A05B000231A93 /* meetingData.json in Resources */,
 				E055DB902C19E535003B7D7E /* LaunchScreen.storyboard in Resources */,
 				E08412502C1A3BFB00231A93 /* GoogleService-Info.plist in Resources */,
 				E055DB8D2C19E535003B7D7E /* Assets.xcassets in Resources */,

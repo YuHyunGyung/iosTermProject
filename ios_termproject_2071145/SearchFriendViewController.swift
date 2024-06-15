@@ -205,16 +205,6 @@ extension SearchFriendViewController {
     func manageUsersDatabase(dict: [String: Any]?, dbaction: DbAction?) {
         guard let dict = dict else { return }
         let user = User.fromDict(dict: dict)
-        
-        /*
-        if dbaction == .add {
-            users.append(user)
-            filteredUsers = users
-            
-            print("SearchFriendViewController manage users : ", users)
-            return
-        }
-        */
     }
     
     //팔로잉 신규 데이터 '삽입'으로 생성된 데이터 불러오기
