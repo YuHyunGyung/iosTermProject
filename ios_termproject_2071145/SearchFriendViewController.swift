@@ -43,24 +43,6 @@ class SearchFriendViewController: UIViewController {
         //
         searchFriendTableView.dataSource = self
         searchFriendTableView.delegate = self
-        
-        //firestoreFollowingUsers()
-        
-        Firestore.firestore().collection("Users").getDocuments { (querySnapshot, error) in
-            if let error = error {
-                print("Error getting users documents: \(error)")
-            } else {
-                self.users.removeAll()
-                for document in querySnapshot!.documents {
-                    let data = document.data()
-                    let user = User.fromDict(dict: data)
-                    self.users.append(user)
-                }
-            }
-            print("viewDidLoad users : ", self.users)
-            self.filteredUsers = self.users
-            self.searchFriendTableView.reloadData()
-        }
     }
 }
 
@@ -87,8 +69,20 @@ extension SearchFriendViewController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendyhg") as! SearchFriendTableViewCell //custom한 cell로 캐스팅
         
+        /*
         ImagePool.image(name: user.imageName, size: CGSize(width: 85, height: 85)) { [weak self] image in
             cell.profileImage.image = image
+        }
+        */
+        
+        // 이미지 비동기 로드
+        ImagePool.image(name: user.imageName, size: CGSize(width: 85, height: 85)) { [weak self, weak cell] image in
+            guard let self = self else { return }
+            guard let cell = cell else { return }
+            // 로드된 이미지가 현재 인덱스와 맞는지 확인
+            if self.filteredUsers[indexPath.row].id == user.id {
+                cell.profileImage.image = image
+            }
         }
         cell.name.text = user.name //유저 닉네임
         
@@ -205,6 +199,13 @@ extension SearchFriendViewController {
     func manageUsersDatabase(dict: [String: Any]?, dbaction: DbAction?) {
         guard let dict = dict else { return }
         let user = User.fromDict(dict: dict)
+        
+        if dbaction == .add {
+            users.append(user)
+            filteredUsers = users
+            print("users : ", users, "\nfilteredUsers : ", filteredUsers)
+            searchFriendTableView.reloadData()
+        }
     }
     
     //팔로잉 신규 데이터 '삽입'으로 생성된 데이터 불러오기
@@ -227,7 +228,7 @@ extension SearchFriendViewController {
                 }
                 
                 self.searchFriendTableView.reloadData()
-                print("SearchFriendViewController extension following: ", self.following)
+                print("SearchFriendViewController manage following: ", self.following)
             }
         }
         
@@ -239,47 +240,6 @@ extension SearchFriendViewController {
             if let index = following.firstIndex(of: follow.id) {
                 following.remove(at: index)
             }
-        }
-    }
-}
-
-extension SearchFriendViewController {
-    //모든 유저 가져오기
-    func firestoreAllUsers() {
-        
-        Firestore.firestore().collection("Users").getDocuments { (querySnapshot, error) in
-            if let error = error {
-                print("Error getting documents: \(error)")
-            } else {
-                self.users.removeAll()
-                for document in querySnapshot!.documents {
-                    let data = document.data()
-                    let user = User.fromDict(dict: data)
-                    self.users.append(user)
-                }
-                self.filteredUsers = self.users
-                self.searchFriendTableView.reloadData()
-            }
-        }
-    }
-    
-    //팔로우한 유저 가져오기
-    func firestoreFollowingUsers() {
-        
-        Firestore.firestore().collection("Users").document(String(appDelegate.id)).collection("Following").getDocuments { (querySnapshot, error) in
-            if let error = error {
-                print("Error getting following documents: \(error)")
-            } else {
-                self.following.removeAll() // 기존 팔로잉 데이터를 지우기
-                for document in querySnapshot!.documents {
-                    let data = document.data()
-                    let follow = Following.fromDict(dict: data)
-                    self.following.append(follow.id)
-                }
-            }
-            
-            self.searchFriendTableView.reloadData()
-            print("SearchFriendViewController extension following: ", self.following)
         }
     }
 }

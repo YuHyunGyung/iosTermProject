@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseFirestore
+import FirebaseAuth
 
 //내정보 컨트롤러
 class MyProfileViewController: UIViewController {
@@ -130,6 +131,16 @@ class MyProfileViewController: UIViewController {
     @IBAction func chargeButton(_ sender: UIButton) {
         performSegue(withIdentifier: "GotoCharge", sender: nil)
     }
+    
+    //로그아웃 버튼
+    @IBAction func logoutButton(_ sender: UIButton) {
+        do {
+            try Auth.auth().signOut()
+            performSegue(withIdentifier: "GotoLogin", sender: nil)
+        } catch let logoutError as NSError {
+            print("-----Logout ERROR----- : ", logoutError)
+        }
+    }
 }
 
 //firestore
@@ -145,7 +156,7 @@ extension MyProfileViewController {
         usersFollowingDbFirebase?.setQuery(from: 1, to: 10000)
     }
     
-    //유저 신규 데이터 '삽입'으로 생성된 데이터 불러오기
+    //유저 데이터
     func manageUsersDatabase(dict: [String: Any]?, dbaction: DbAction?) {
         guard let dict = dict else { return }
         let user = User.fromDict(dict: dict)
@@ -153,7 +164,6 @@ extension MyProfileViewController {
         
         if dbaction == .add {
             users.append(user)
-            filteredUsers = users
             print("MyProfileViewController manage users : ", users)
         }
         
@@ -172,10 +182,11 @@ extension MyProfileViewController {
     }
         
         
-    //팔로잉 신규 데이터 '삽입'으로 생성된 데이터 불러오기
+    //팔로잉 데이터
     func manageFollowingDatabase(dict: [String: Any]?, dbaction: DbAction?) {
         guard let dict = dict else { return }
-        let follow = Following.fromDict(dict: dict)
+        //let following = Following.fromDict(dict: dict)
+        //let follower = Follower.fromDict(dict: dict)
         
         if dbaction == .add {
             Firestore.firestore().collection("Users").document(String(appDelegate.id)).collection("Following").getDocuments { (querySnapshot, error) in
@@ -185,11 +196,15 @@ extension MyProfileViewController {
                     self.following.removeAll() // 기존 팔로잉 데이터를 지우기
                     for document in querySnapshot!.documents {
                         let data = document.data()
-                        let follow = Following.fromDict(dict: data)
-                        self.following.append(follow.id)
+                        let following = Following.fromDict(dict: data)
+                        self.following.append(following.id)
                     }
                 }
                 print("MyProfileViewController manage following: ", self.following)
+                //UI 업데이트
+                DispatchQueue.main.async {
+                    self.initMyProfile()
+                }
             }
             
             Firestore.firestore().collection("Users").document(String(appDelegate.id)).collection("Follower").getDocuments { (querySnapshot, error) in
@@ -199,16 +214,15 @@ extension MyProfileViewController {
                     self.follower.removeAll() // 기존 팔로잉 데이터를 지우기
                     for document in querySnapshot!.documents {
                         let data = document.data()
-                        let follow = Follower.fromDict(dict: data)
-                        self.follower.append(follow.id)
+                        let follower = Follower.fromDict(dict: data)
+                        self.follower.append(follower.id)
                     }
                 }
                 print("MyProfileViewController manage follower: ", self.follower)
-            }
-            
-            // UI 업데이트
-            DispatchQueue.main.async {
-                self.initMyProfile()
+                //UI 업데이트
+                DispatchQueue.main.async {
+                    self.initMyProfile()
+                }
             }
         }
     }
@@ -217,7 +231,7 @@ extension MyProfileViewController {
 //이미지뷰 탭
 extension MyProfileViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
-    //
+    //사진 선택한 경우
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage //UIImage 가져옴
         
@@ -243,7 +257,7 @@ extension MyProfileViewController: UINavigationControllerDelegate, UIImagePicker
 }
 
 
-//전이
+//충전, 로그인 페이지로 전이
 extension MyProfileViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let accountChargeViewController = segue.destination as? AccountChargeViewController
