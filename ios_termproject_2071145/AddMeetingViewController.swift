@@ -39,19 +39,13 @@ class AddMeetingViewController: UIViewController {
     
     
     var users: [User] = [] //파이어베이스에서 가져온 모든 유저 정보
-    //var filteredUsers: [User] = []
     
     var following: [Int] = [] //내가 팔로잉하고 있는 사람들 배열
-    var filteredFollowing: [Int] = []
     var meetingsMembers: [Int] = [] //변경되기 전 멤버를 유지하기 위한 배열
     
     var followingUsers: [User] = [] //팔로잉한 유저들 정보
     var members: [User] = [] //모임의 멤버들 정보
-    //var membersInt: [Int] = [] //새로운 모임일 경우 멤버 저장할 배열
     
-    var usersDbFirebase: UsersDbFirebase? //전체유저
-    var usersFollowingDbFirebase: UsersFollowingDbFirebase? //팔로잉한 유저
-    var usersMeetingDbFirebase: UsersMeetingDbFirebase? //전체 모임
     
     
     override func viewDidLoad() {
@@ -94,17 +88,6 @@ class AddMeetingViewController: UIViewController {
             initMeeting(meeting: homeViewController.appDelegate.meetings[selectedMeeting])
         }
         
-        //
-        usersDbFirebase = UsersDbFirebase(parentNotification: manageUsersDatabase)
-        usersDbFirebase?.setQuery(from: 1, to: 10000)
-        
-        usersFollowingDbFirebase = UsersFollowingDbFirebase(parentNotification: manageFollowingDatabase)
-        usersFollowingDbFirebase?.setQuery(from: 1, to: 10000)
-        
-        usersMeetingDbFirebase = UsersMeetingDbFirebase(parentNotification: manageMeetingDatabase)
-        usersMeetingDbFirebase?.setQuery(from: 1, to: 20000)
-        
-        
         //date pickerView 초기화
         datePickerView.dataSource = self
         datePickerView.delegate = self
@@ -134,8 +117,7 @@ class AddMeetingViewController: UIViewController {
             self.memberAddTableView.reloadData()
         }
         
-        
-        
+        //전체유저 가져오기
         Firestore.firestore().collection("Users").getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error getting users documents: \(error)")
@@ -150,6 +132,7 @@ class AddMeetingViewController: UIViewController {
             print("viewDidLoad users : ", self.users)
             self.memberCollectionView.reloadData()
         }
+        
     }
     
     //date pickerview done button
@@ -164,20 +147,9 @@ class AddMeetingViewController: UIViewController {
         dateTextField.text = meeting.date
         memoTextView.text = meeting.memo
         
-        var memberString = ""
-        if meeting.member.count != 0 {
-            for i in 0..<meeting.member.count-1 {
-                memberString += String(meeting.member[i])+","
-            }
-            
-            memberString += String(meeting.member[meeting.member.count-1])
-            print("memberString : ", memberString)
-        }
-        
         if selectedMeeting != nil {
             meetingsMembers = meeting.member
         }
-        
     }
     
     //모임 저장하기 버튼
@@ -189,118 +161,36 @@ class AddMeetingViewController: UIViewController {
         var id = appDelegate.id //새로운 모임의 주최자인 유저 primary key 부여
         var meetingId = appDelegate.meetings.count + 20001 //새로운 모임 primary key 부여
         var name = appDelegate.name //새로운 모임의 주최자인 유저 닉네임
-        
+        var account: Int = 0 //계좌 잔액
         
         var member = meetingsMembers
         if !member.contains(appDelegate.id) {
             member.append(appDelegate.id)
         }
-        //var member: [Int] = []
-        var account: Int = 0 //계좌 잔액
+        
         
         if let selectedMeeting = selectedMeeting { //신규 삽입이 아니면 수정
             id = appDelegate.meetings[selectedMeeting].id
             meetingId = appDelegate.meetings[selectedMeeting].meetingId
             name = appDelegate.meetings[selectedMeeting].name
-            //member = appDelegate.meetings[selectedMeeting].member
             account = appDelegate.meetings[selectedMeeting].account
-        } 
-        /*
-        else {
-            member = membersInt
         }
-        */
-        
         
         let meeting = Meeting(id: id, meetingId: meetingId, name: name, title: title, date: date ?? "", memo: memo, member: member, account: account)
         print("AddMeetingViewController save Meeting : ", meeting)
         
         if let selectedMeeting = selectedMeeting { //신규 삽입 아니면 수정
-            //homeViewController.appDelegate.meetings[selectedMeeting] = meeting
-            usersMeetingDbFirebase?.saveChange(key: String(meetingId), object: Meeting.toDict(meeting: meeting), action: .modify)
+            homeViewController.usersMeetingDbFirebase?.saveChange(key: String(meetingId), object: Meeting.toDict(meeting: meeting), action: .modify)
         } else { //신규 삽입
-            //homeViewController.appDelegate.meetings.append(meeting)
-            usersMeetingDbFirebase?.saveChange(key: String(meetingId), object: Meeting.toDict(meeting: meeting), action: .add)
+            homeViewController.usersMeetingDbFirebase?.saveChange(key: String(meetingId), object: Meeting.toDict(meeting: meeting), action: .add)
         }
         
         
         selectedMeeting = nil
-        self.navigationController?.popToRootViewController(animated: true) //self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popToRootViewController(animated: true)
     }
 }
 
-
-
-//firestore 연결
-extension AddMeetingViewController {
-    
-    //유저 신규 데이터 '삽입'으로 생성된 데이터 불러오기
-    func manageUsersDatabase(dict: [String: Any]?, dbaction: DbAction?) {
-        guard let dict = dict else { return }
-        let user = User.fromDict(dict: dict)
-        
-        /*
-        if dbaction == .add {
-            users.append(user)
-            filteredUsers = users
-            print("AddMeetingViewController users : ", users)
-            return
-        }
-         */
-    }
-    
-    //팔로잉 신규 데이터 '삽입'으로 생성된 데이터 불러오기
-    func manageFollowingDatabase(dict: [String: Any]?, dbaction: DbAction?) {
-        
-        guard let dict = dict else { return }
-        let follow = Following.fromDict(dict: dict)
-        
-        /*
-        if dbaction == .add {
-            
-            Firestore.firestore().collection("Users").document(String(appDelegate.id)).collection("Following").getDocuments { (querySnapshot, error) in
-                if let error = error {
-                    print("Error getting following documents: \(error)")
-                } else {
-                    self.following.removeAll() // 기존 팔로잉 데이터를 지우기
-                    for document in querySnapshot!.documents {
-                        let data = document.data()
-                        let follow = Following.fromDict(dict: data)
-                        self.following.append(follow.id)
-                    }
-                }
-                print("manage AddMeetingViewController following :", self.following)
-            }
-            return
-        }
-        */
-    }
-    
-    //모임 신규 데이터 '삽입'으로 생성된 데이터 불러오기
-    func manageMeetingDatabase(dict: [String: Any]?, dbaction: DbAction?) {
-        guard let dict = dict else { return }
-        let meeting = Meeting.fromDict(dict: dict)
-        
-        
-        if dbaction == .add {
-            //appDelegate.meetings.append(meeting)
-            print("AddMeetingViewController manage add meeting : ", appDelegate.meetings)
-        }
-        
-        if dbaction == .delete {
-            
-        }
-        
-        for i in 0..<appDelegate.meetings.count {
-            if meeting.meetingId == appDelegate.meetings[i].meetingId {
-                if dbaction == .modify {
-                    appDelegate.meetings[i] = meeting
-                    print("AddMeetingViewController manage modify meeting : ", appDelegate.meetings)
-                }
-            }
-        }
-    }
-}
 
 
 //collectionView - datasource
@@ -354,21 +244,17 @@ extension AddMeetingViewController: UICollectionViewDataSource {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "addMeetingFriendyhg", for: indexPath) as! AddMeetingFriendCollectionViewCell
         
-        
         if indexPath.row < members.count {
             let user = members[indexPath.row] //여기 넣어야 오류 안남
             
-            ImagePool.image(name: user.imageName, size: CGSize(width: 85, height: 85)) { [weak self] image in
-                cell.imageView.image = image
-            }
+            ImagePool.image(name: user.imageName, size: CGSize(width: 85, height: 85), completion: {cell.imageView.image = $0})
             cell.nameLable.text = user.name
-            print("user info : ", user)
             
             // 내 아이디가 있으면 셀을 숨김
            if appDelegate.id == meetingsMembers[indexPath.item] {
-               cell.isHidden = true // 이 부분이 추가된 부분입니다.
+               cell.isHidden = true
            } else {
-               cell.isHidden = false // 이 부분이 추가된 부분입니다.
+               cell.isHidden = false
            }
         } else {
             print("Index out of range for members array")
@@ -385,9 +271,6 @@ extension AddMeetingViewController: UICollectionViewDataSource {
     
     //멤버 삭제하는 버튼에 쓰일 함수 정의
     func deleteMember(at indexPath: IndexPath) {
-        //guard let selectedMeeting = selectedMeeting else { return }
-        
-        
         //meetingsMembers 배열의 유효한 인덱스 범위 내에서 삭제 작업 수행
         if indexPath.item < meetingsMembers.count {
             meetingsMembers.remove(at: indexPath.item)
@@ -458,12 +341,9 @@ extension AddMeetingViewController: UITableViewDataSource {
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "addMeetingFriendTableViewCellyhg") as! AddMeetingFriendTableViewCell
+        let user = followingUsers[indexPath.row] //팔로잉한 indexPath에 해당하는 유저 정보
         
-        let user = followingUsers[indexPath.row]
-        
-        ImagePool.image(name: user.imageName, size: CGSize(width: 85, height: 85)) { [weak self] image in
-            cell.profileImageView.image = image
-        }
+        ImagePool.image(name: user.imageName, size: CGSize(width: 85, height: 85), completion: {cell.profileImageView.image = $0})
         cell.userNameLabel.text = user.name
         
         //멤버 추가 버튼 눌렀을 경우
@@ -486,17 +366,11 @@ extension AddMeetingViewController: UITableViewDataSource {
             }
         }
         
-        
         return cell
     }
     @objc func addFriendButtonTapped(_ sender: UIButton) {
-        print("addFriendButtonTapped sender.tag : ", sender.tag, "\n followingUsers : ", followingUsers)
-        
         guard sender.tag < followingUsers.count else { return }
         let user = followingUsers[sender.tag]
-        print("addFriendButtonTapped user : ", user)
-        
-        print("selectedMeeting : ", selectedMeeting)
         
         if let selectedMeeting = selectedMeeting, selectedMeeting < appDelegate.meetings.count {
             meetingsMembers.append(user.id)

@@ -135,7 +135,7 @@ extension HomeViewController: UISearchBarDelegate {
             filteredMeetings = appDelegate.meetings
         } else {
             let text = searchText.lowercased()
-            filteredMeetings = appDelegate.meetings.filter { $0.title.contains(text) }
+            filteredMeetings = appDelegate.meetings.filter { $0.title.lowercased().contains(text) }
         }
         meetingTableView.reloadData()
     }
@@ -145,11 +145,8 @@ extension HomeViewController: UISearchBarDelegate {
 //전이
 extension HomeViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
         let addMeetingDetailViewController = segue.destination as? AddMeetingViewController //전이 하고자 하는 뷰 컨트롤러
-        
         addMeetingDetailViewController!.homeViewController = self
-        
         
         if let indexPath = sender as? IndexPath {
             addMeetingDetailViewController?.selectedMeeting = indexPath.row

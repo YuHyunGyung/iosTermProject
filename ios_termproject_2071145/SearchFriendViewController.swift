@@ -11,7 +11,7 @@ import FirebaseFirestore
 
 //친구찾기 컨트롤러
 class SearchFriendViewController: UIViewController {
-    var appDelegate: AppDelegate = AppDelegate()
+    var appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var searchFriendTableView: UITableView!
@@ -27,22 +27,24 @@ class SearchFriendViewController: UIViewController {
     var usersDbFirebase: UsersDbFirebase? //전체유저
     var usersFollowingDbFirebase: UsersFollowingDbFirebase? //팔로잉한 유저
     
-    var myprofileViewController: MyProfileViewController!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        appDelegate = UIApplication.shared.delegate as! AppDelegate //AppDelegate 공유
-        myprofileViewController = MyProfileViewController()
-        
-        usersDbFirebaseSet()
-        usersFollowingDbFirebaseSet()
         
         //
         searchBar.delegate = self
-        
-        //
         searchFriendTableView.dataSource = self
         searchFriendTableView.delegate = self
+        
+        //
+        usersDbFirebaseSet()
+        usersFollowingDbFirebaseSet()
+        
+        print("viewDidLoad reload")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        searchFriendTableView.reloadData()
+        print("viewDidAppear reload")
     }
 }
 
@@ -55,13 +57,11 @@ extension SearchFriendViewController: UITableViewDataSource {
     
     //각 섹션에 대하여 몇개의 행을 가질것인가. 섹션이 하나라 한번만 호출됨
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("filteredUsers.count : ", filteredUsers.count)
         return filteredUsers.count
     }
     
     //각 섹션이 행에 해당하는 UITableViewCell 만들어달라
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let user = filteredUsers[indexPath.row]
         if appDelegate.id == user.id {
             return UITableViewCell()
@@ -69,21 +69,7 @@ extension SearchFriendViewController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendyhg") as! SearchFriendTableViewCell //custom한 cell로 캐스팅
         
-        /*
-        ImagePool.image(name: user.imageName, size: CGSize(width: 85, height: 85)) { [weak self] image in
-            cell.profileImage.image = image
-        }
-        */
-        
-        // 이미지 비동기 로드
-        ImagePool.image(name: user.imageName, size: CGSize(width: 85, height: 85)) { [weak self, weak cell] image in
-            guard let self = self else { return }
-            guard let cell = cell else { return }
-            // 로드된 이미지가 현재 인덱스와 맞는지 확인
-            if self.filteredUsers[indexPath.row].id == user.id {
-                cell.profileImage.image = image
-            }
-        }
+        ImagePool.image(name: user.imageName, size: CGSize(width: 85, height: 85), completion: {cell.profileImage.image = $0}) //프로필 이미지
         cell.name.text = user.name //유저 닉네임
         
         //팔로우 버튼 눌렀을때
@@ -129,19 +115,7 @@ extension SearchFriendViewController: UITableViewDataSource {
                 
                 // NotificationCenter를 통해 내 정보 컨트롤러에 알림을 보냄
                 NotificationCenter.default.post(name: Notification.Name("FollowingUpdated"), object: nil)
-
-
-                //버튼 내용 바꾸기
-                if let cell = self.searchFriendTableView.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? SearchFriendTableViewCell {
-                    if self.following.contains(user.id) {
-                    cell.followingButton.backgroundColor = .gray
-                    cell.followingButton.setTitle("팔로잉", for: .normal)
-                    }
-                    else {
-                        cell.followingButton.backgroundColor = .systemYellow
-                        cell.followingButton.setTitle("팔로우", for: .normal)
-                    }
-                }
+                self.searchFriendTableView.reloadData()
             }
         }
     }
@@ -173,7 +147,7 @@ extension SearchFriendViewController: UISearchBarDelegate {
             filteredUsers = users
         } else {
             let text = searchText.lowercased()
-            filteredUsers = users.filter { $0.name.contains(text) }
+            filteredUsers = users.filter { $0.name.lowercased().contains(text) }
         }
         
         // 테이블 뷰 업데이트
@@ -195,7 +169,7 @@ extension SearchFriendViewController {
     }
     
     
-    //유저 신규 데이터 '삽입'으로 생성된 데이터 불러오기
+    //유저 데이터 불러오기
     func manageUsersDatabase(dict: [String: Any]?, dbaction: DbAction?) {
         guard let dict = dict else { return }
         let user = User.fromDict(dict: dict)
@@ -203,14 +177,12 @@ extension SearchFriendViewController {
         if dbaction == .add {
             users.append(user)
             filteredUsers = users
-            print("users : ", users, "\nfilteredUsers : ", filteredUsers)
             searchFriendTableView.reloadData()
         }
     }
     
-    //팔로잉 신규 데이터 '삽입'으로 생성된 데이터 불러오기
+    //팔로잉 데이터 불러오기
     func manageFollowingDatabase(dict: [String: Any]?, dbaction: DbAction?) {
-        
         guard let dict = dict else { return }
         let follow = Following.fromDict(dict: dict)
         
@@ -228,7 +200,6 @@ extension SearchFriendViewController {
                 }
                 
                 self.searchFriendTableView.reloadData()
-                print("SearchFriendViewController manage following: ", self.following)
             }
         }
         
